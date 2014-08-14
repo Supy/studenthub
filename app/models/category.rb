@@ -41,6 +41,19 @@ class Category < ActiveRecord::Base
     validates :fields, presence: true, allow_blank: true
     validate :cant_have_duplicate_sibling, :must_have_valid_field_definition
 
+    def build_fields
+        """
+        Build the final field definition by combining the fields with
+        the fields of all ancestors
+        """
+        final_fields = fields.nil? ? {} : fields
+        ancestors.each do |ancestor|
+            final_fields = ancestor.fields.merge(final_fields)
+        end
+        final_fields
+    end
+
+
     private
 
         def default_values

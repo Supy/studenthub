@@ -1,0 +1,26 @@
+# -----------------------
+# Databases Configuration
+# -----------------------
+# Using Sqlite3 for test/development environments, and mysql for prod
+
+default: &default
+    adapter: sqlite3
+    pool: 5
+    timeout: 5000
+
+development:
+    <<: *default
+    database: db/studenthub_development.sqlite3
+
+test:
+    <<: *default
+    database: db/studenthub_test.sqlite3
+
+production:
+    adapter: mysql2
+    encoding: utf8
+    pool: 5
+    database: studenthub_production
+    username: studenthub
+    password: <%= ENV['STUDENTHUB_DATABASE_PASSWORD'] %>
+    socket: /var/run/mysqld/mysqld.sock

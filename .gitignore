@@ -24,3 +24,6 @@ config/initializers/secret_token.rb
 
 # Rubymine IDE
 /.idea
+
+# Ignore closure-tree locks
+.lock*

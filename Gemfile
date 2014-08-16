@@ -26,3 +26,6 @@ gem 'jquery-rails', '~> 3.1.1'
 group :test do
     gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
 end
+
+# tree library
+gem 'closure_tree', '~> 5.0.0'

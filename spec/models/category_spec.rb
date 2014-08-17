@@ -30,12 +30,12 @@ describe Category do
     end
 
     it 'is invalid with empty select array' do
-        expect(build(:category, fields: { 'field_1' => {'select' => []} })).not_to be_valid
+        expect(build(:category, fields: { 'field_1' => {select: []} })).not_to be_valid
     end
 
     it 'can form a tree' do
         p1 = create(:category, name: 'parent', fields: { 'field_1' => {} })
-        c2 = create(:category, name: 'child_1', fields: { 'field_1' => {'required' => true} })
+        c2 = create(:category, name: 'child_1', fields: { 'field_1' => {required: true} })
         c3 = create(:category, name: 'child_2', fields: { 'field_2' => {} })
 
         p1.children << c2
@@ -45,7 +45,7 @@ describe Category do
 
         expect(p1.build_fields).to eq({ 'field_1' => {} })
 
-        expect(c2.build_fields).to eq({ 'field_1' => {'required' => true} })
+        expect(c2.build_fields).to eq({ 'field_1' => {required: true} })
 
         expect(c3.build_fields).to eq({ 'field_1' => {}, 'field_2' => {} })
     end

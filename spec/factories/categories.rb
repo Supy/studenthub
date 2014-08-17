@@ -12,9 +12,9 @@ FactoryGirl.define do
     factory :car_category, class: Category do
         name {'Cars' + FactoryGirl.generate(:cat_names)}
         fields({
-            'Make' => {'required' => true},
-            'Body Type' => {'select' => ['Sedan', 'Hatchback', 'Bakkie']},
-            'Fuel' => {'required' => true, 'select' => ['Petrol', 'Diesel']},
+            'Make' => {required: true},
+            'Body Type' => {select: ['Sedan', 'Hatchback', 'Bakkie']},
+            'Fuel' => {required: true, select: ['Petrol', 'Diesel']},
             'Colour' => {}
         })
     end

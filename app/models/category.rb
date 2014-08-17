@@ -77,12 +77,12 @@ class Category < ActiveRecord::Base
 
             fields.each do |field_name, field_attrs|
                 # field options can only be 'required' or 'select'
-                unknowns = field_attrs.keys - ['required', 'select']
+                unknowns = field_attrs.keys - [:required, :select]
                 if not unknowns.empty?
                     errors.add(:fields, "Unknown field attributes on #{field_name}: #{unknowns.join(', ')}.")
                 end
 
-                if field_attrs.include? 'select' and field_attrs['select'].empty?
+                if field_attrs.include? :select and field_attrs[:select].empty?
                     errors.add(:fields, "Field #{field_name} selectables cannot be empty.")
                 end
             end

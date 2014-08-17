@@ -23,8 +23,9 @@ group :development, :test do
     gem 'capistrano-rvm'
 
     gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
-    gem 'simplecov', require: false
+    gem 'simplecov'
     gem 'factory_girl_rails', '~> 4.4.1'
+    gem 'database_cleaner'
 end
 
 # javascript runtime

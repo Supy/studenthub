@@ -4,7 +4,7 @@ class CreateAdverts < ActiveRecord::Migration
             t.string :title
             t.text :description
             t.integer :category_id
-            t.text :fieldvalues
+            t.text :field_values
             t.float :price
             t.integer :price_type
         end

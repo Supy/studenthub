@@ -81,12 +81,6 @@ class Category < ActiveRecord::Base
                 errors.add(:fields, "Can't have blank fields.")
             end
 
-            # duplicate field names
-            dups = fields.keys - fields.keys.uniq
-            if not dups.empty?
-                errors.add(:fields, "Duplicate field names: #{dups.join(', ')}.")
-            end
-
             fields.each do |field_name, field_attrs|
                 # field options can only be 'required' or 'select'
                 unknowns = field_attrs.keys - ['required', 'select']

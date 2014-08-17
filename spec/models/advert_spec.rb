@@ -216,6 +216,18 @@ describe Advert do
             }
         })).not_to be_valid
 
+        # field value too long
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                'Make' => 'long' * 100,
+                'Body Type' => 'Sedan',
+                'Fuel' => 'Petrol'
+            }
+        })).not_to be_valid
     end
 
 end

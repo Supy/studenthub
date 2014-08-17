@@ -47,6 +47,10 @@ class Advert < ActiveRecord::Base
                 if attributes.include? 'select' and field_values.include? name and not attributes['select'].include? field_values[name]
                     errors.add(:field_values, "Value for #{name} is not one of the available options.")
                 end
+
+                if field_values.include? name and field_values[name].length > 140
+                    errors.add(:field_values, "Value for #{name} is too long.")
+                end
             end
 
             unknown_fields = field_values.keys - field_definition.keys

@@ -16,9 +16,18 @@ class Advert < ActiveRecord::Base
     # price_type is an enum
     enum price_type: [:exact_price, :free, :swap, :price_on_application]
 
+    after_initialize :default_values
+
     validates :title, presence: true, allow_blank: false
     validates :title, length: {minimum: 5, maximum: 100}
     validates :description, presence: true, allow_blank: false
     validates :description, length: {minimum: 10, maximum: 10000}
 
+    validates :price, presence: true, if: :exact_price?
+
+    private
+
+        def default_values
+            self.price_type = :exact_price
+        end
 end

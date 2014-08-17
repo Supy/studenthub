@@ -47,4 +47,26 @@ describe Category do
         })).not_to be_valid
     end
 
+    it 'can form a tree' do
+        p1 = Category.create(name: 'parent', fields: { 'field_1' => {} })
+        c2 = Category.create(name: 'child_1', fields: { 'field_1' => {'required' => true} })
+        c3 = Category.create(name: 'child_2', fields: { 'field_2' => {} })
+
+        p1.children << c2
+        p1.children << c3
+
+        expect(p1.children).to eq([c2, c3])
+
+        expect(p1.build_fields).to eq({ 'field_1' => {} })
+
+        expect(c2.build_fields).to eq({ 'field_1' => {'required' => true} })
+
+        expect(c3.build_fields).to eq({ 'field_1' => {}, 'field_2' => {} })
+
+        c3.destroy
+        c2.destroy
+        p1.destroy
+
+    end
+
 end

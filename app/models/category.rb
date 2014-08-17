@@ -4,8 +4,8 @@ class Category < ActiveRecord::Base
     fields attached to it. eg: A book has an author/publisher/ISBN.
 
     Categories can be joined in a tree structure so that children inherit the
-    fields defined by a parent Category. eg: A Car inherits Make & Model from
-    its parent Motor Vehicle.
+    fields defined by a parent Category. eg: A Car inherits a Make & Model field
+    from its parent Motor Vehicle.
 
     Fields:
         name:   The name of the field. Must be present and must be at least 3
@@ -16,7 +16,7 @@ class Category < ActiveRecord::Base
                 [
                     'field_1': {
                         'required': true,
-                        'select_from': ['A', 'B', 'C']
+                        'select': ['A', 'B', 'C']
                     },
                     'field_2': { },
                     'field_3': {
@@ -24,16 +24,24 @@ class Category < ActiveRecord::Base
                     }
                 ]
 
+                'required' indicates that a value MUST be present for that field
+                'select' indicates that the value MUST be one of the values in
+                    the following array.
+
+                The GUI should indicate these via a * for required fields, and
+                by using a drop down for selectables.
+
     """
 
     # (add any attr_accessible here)
 
-    acts_as_tree :order => 'name'
+    acts_as_tree order: 'name'
+
+    # has adverts
+    has_many :adverts
 
     # the fields value is a serialized hash
     serialize :fields, Hash
-
-    after_initialize :default_values
 
     # validations
     validates :name, presence: true, allow_blank: false
@@ -41,11 +49,19 @@ class Category < ActiveRecord::Base
     validates :fields, presence: true, allow_blank: true
     validate :cant_have_duplicate_sibling, :must_have_valid_field_definition
 
-    private
-
-        def default_values
-            fields ||= {}
+    def build_fields
+        """
+        Build the final field definition by combining the fields with
+        the fields of all ancestors
+        """
+        final_fields = fields
+        ancestors.each do |ancestor|
+            final_fields = ancestor.fields.merge(final_fields)
         end
+        final_fields
+    end
+
+    private
 
         def cant_have_duplicate_sibling
             if siblings.index {|s| s.name == name}
@@ -56,27 +72,19 @@ class Category < ActiveRecord::Base
         def must_have_valid_field_definition
             # blank field names
             if fields.include? ''
-                errors.add(:fields, 'Can\'t have blank fields!')
+                errors.add(:fields, "Can't have blank fields.")
             end
 
-            # duplicate field names
-            dups = fields.keys - fields.keys.uniq
-            if not dups.empty?
-                errors.add(:fields, "Duplicate field names! (#{dups.join(' ')})")
-            end
-
-
-            fields.values.each do |f|
+            fields.each do |field_name, field_attrs|
                 # field options can only be 'required' or 'select'
-                unknowns = f.keys - ['required', 'select']
+                unknowns = field_attrs.keys - ['required', 'select']
                 if not unknowns.empty?
-                    errors.add(:fields, "Unknown field names! (#{unknowns.join(' ')})")
+                    errors.add(:fields, "Unknown field attributes on #{field_name}: #{unknowns.join(', ')}.")
                 end
 
-                if f.include? 'select' and f['select'].empty?
-                    errors.add(:fields, 'Field selectables cannot be empty.')
+                if field_attrs.include? 'select' and field_attrs['select'].empty?
+                    errors.add(:fields, "Field #{field_name} selectables cannot be empty.")
                 end
             end
         end
-
 end

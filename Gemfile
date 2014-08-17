@@ -23,6 +23,7 @@ group :development, :test do
   gem 'capistrano-rvm'
 
   gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
+  gem 'simplecov', require: false
 end
 
 # javascript runtime

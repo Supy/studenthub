@@ -40,8 +40,10 @@ class Advert < ActiveRecord::Base
             field_definition = category.build_fields
 
             field_definition.each do |name, attributes|
-                if attributes.include? 'required' and attributes['required'] == true and not field_values.include? name
-                    errors.add(:field_values, "Missing value for required field #{name}.")
+                if attributes.include? 'required' and attributes['required'] == true
+                    if not field_values.include? name or field_values[name].empty?
+                        errors.add(:field_values, "Missing value for required field #{name}.")
+                    end
                 end
 
                 if attributes.include? 'select' and field_values.include? name and not attributes['select'].include? field_values[name]

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Category do
+describe Category, :type => :model do
 
     it 'can be constructed' do
         expect(build(:category)).to be_valid

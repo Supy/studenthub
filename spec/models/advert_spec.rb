@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Advert do
+describe Advert, :type => :model do
 
     let(:blank_category) { create(:category, name: 'Cars') }
 

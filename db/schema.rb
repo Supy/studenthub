@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140814211408) do
+ActiveRecord::Schema.define(version: 20140817092657) do
+
+  create_table "adverts", force: true do |t|
+    t.string  "title"
+    t.text    "description"
+    t.integer "category_id"
+    t.text    "fieldvalues"
+    t.float   "price"
+    t.integer "price_type"
+  end
 
   create_table "categories", force: true do |t|
     t.string   "name"

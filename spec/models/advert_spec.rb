@@ -116,4 +116,92 @@ describe Advert do
         })).not_to be_valid
     end
 
+    it 'must match the field definition' do
+        car_category = Category.create(name: 'Cars', fields: {
+            'Make' => {'required' => true},
+            'Body Type' => {'select' => ['Sedan', 'Hatchback', 'Bakkie']},
+            'Fuel' => {'required' => true, 'select' => ['Petrol', 'Diesel']},
+            'Colour' => {}
+        })
+
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                'Make' => 'Toyota',
+                'Body Type' => 'Sedan',
+                'Fuel' => 'Petrol',
+                'Colour' => 'Blue'
+            }
+        })).to be_valid
+
+        # missing optional field
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                'Make' => 'Toyota',
+                'Body Type' => 'Sedan',
+                'Fuel' => 'Petrol'
+            }
+        })).to be_valid
+
+        # missing required field
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                #'Make' => 'Toyota',
+                'Body Type' => 'Sedan',
+                'Fuel' => 'Petrol'
+            }
+        })).not_to be_valid
+
+        # bad select value in optional field
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                'Make' => 'Toyota',
+                'Body Type' => 'Truck', # <--
+                'Fuel' => 'Petrol'
+            }
+        })).not_to be_valid
+
+        # bad select value in required field
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                'Make' => 'Toyota',
+                'Body Type' => 'Sedan',
+                'Fuel' => 'Vodka' # <--
+            }
+        })).not_to be_valid
+
+        # missing required select field
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                'Make' => 'Toyota',
+                'Body Type' => 'Sedan',
+                # 'Fuel' => 'Vodka'
+            }
+        })).not_to be_valid
+
+    end
+
 end

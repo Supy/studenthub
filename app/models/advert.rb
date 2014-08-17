@@ -37,5 +37,17 @@ class Advert < ActiveRecord::Base
 
         def field_values_must_match_field_def
 
+            field_definition = category.build_fields
+
+            field_definition.each do |name, attributes|
+                if attributes.include? 'required' and attributes['required'] == true and not field_values.include? name
+                    errors.add(:field_values, "Missing value for required field #{name}.")
+                end
+
+                if attributes.include? 'select' and field_values.include? name and not attributes['select'].include? field_values[name]
+                    errors.add(:field_values, "Value for #{name} is not one of the available options.")
+                end
+            end
+
         end
 end

@@ -37,6 +37,9 @@ class Category < ActiveRecord::Base
 
     acts_as_tree order: 'name'
 
+    # has adverts
+    has_many :adverts
+
     # the fields value is a serialized hash
     serialize :fields, Hash
 

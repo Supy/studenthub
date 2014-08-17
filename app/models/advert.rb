@@ -24,10 +24,41 @@ class Advert < ActiveRecord::Base
     validates :description, length: {minimum: 10, maximum: 10000}
 
     validates :price, presence: true, if: :exact_price?
-    validates :price, numericality: { greater_than: 0, less_than: 10_000_000 }
+    validates :price, numericality: { greater_than: 0, less_than: 10_000_000 }, if: :exact_price?
+
+    validates :category, presence: true
+    validate :field_values_must_match_field_def
+
     private
 
         def default_values
-            self.price_type = :exact_price
+            self.price_type ||= :exact_price
+        end
+
+        def field_values_must_match_field_def
+
+            field_definition = category.build_fields
+
+            field_definition.each do |name, attributes|
+                if attributes.include? 'required' and attributes['required'] == true
+                    if not field_values.include? name or field_values[name].empty?
+                        errors.add(:field_values, "Missing value for required field #{name}.")
+                    end
+                end
+
+                if attributes.include? 'select' and field_values.include? name and not attributes['select'].include? field_values[name]
+                    errors.add(:field_values, "Value for #{name} is not one of the available options.")
+                end
+
+                if field_values.include? name and field_values[name].length > 140
+                    errors.add(:field_values, "Value for #{name} is too long.")
+                end
+            end
+
+            unknown_fields = field_values.keys - field_definition.keys
+            if not unknown_fields.empty?
+                errors.add(:field_values, "Unknown fields #{unknown_fields.join ', '}")
+            end
+
         end
 end

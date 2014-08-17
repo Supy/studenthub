@@ -43,8 +43,6 @@ class Category < ActiveRecord::Base
     # the fields value is a serialized hash
     serialize :fields, Hash
 
-    after_initialize :default_values
-
     # validations
     validates :name, presence: true, allow_blank: false
     validates :name, length: {minimum: 3}
@@ -64,10 +62,6 @@ class Category < ActiveRecord::Base
     end
 
     private
-
-        def default_values
-            fields ||= {}
-        end
 
         def cant_have_duplicate_sibling
             if siblings.index {|s| s.name == name}

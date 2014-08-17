@@ -24,10 +24,18 @@ class Advert < ActiveRecord::Base
     validates :description, length: {minimum: 10, maximum: 10000}
 
     validates :price, presence: true, if: :exact_price?
-    validates :price, numericality: { greater_than: 0, less_than: 10_000_000 }
+    validates :price, numericality: { greater_than: 0, less_than: 10_000_000 }, if: :exact_price?
+
+    validates :category, presence: true
+    validate :field_values_must_match_field_def
+
     private
 
         def default_values
-            self.price_type = :exact_price
+            self.price_type ||= :exact_price
+        end
+
+        def field_values_must_match_field_def
+
         end
 end

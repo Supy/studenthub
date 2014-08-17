@@ -24,3 +24,12 @@ production:
     username: studenthub
     password: <%= ENV['STUDENTHUB_DATABASE_PASSWORD'] %>
     socket: /var/run/mysqld/mysqld.sock
+
+staging:
+    adapter: mysql2
+    encoding: utf8
+    pool: 5
+    database: studenthub_staging
+    username: studenthub
+    password: <%= ENV['STUDENTHUB_DATABASE_PASSWORD'] %>
+    socket: /var/run/mysqld/mysqld.sock

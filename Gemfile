@@ -17,18 +17,19 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
 # deployment
-gem 'capistrano'
+group :development, :test do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+
+  gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
+end
 
 # javascript runtime
 gem 'therubyracer',  platforms: :ruby
 
 # jquery!
 gem 'jquery-rails', '~> 3.1.1'
-
-# test environment
-group :test do
-    gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
-end
 
 # tree library
 gem 'closure_tree', '~> 5.0.0'

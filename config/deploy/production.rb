@@ -1,3 +1,3 @@
-ask :branch, :production
+set :branch, :production
 
-set :deploy_to, '/var/studenthub.co.za'
+set :deploy_to, '/var/studenthub/studenthub.co.za'

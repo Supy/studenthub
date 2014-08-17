@@ -28,6 +28,7 @@ gem 'jquery-rails', '~> 3.1.1'
 # test environment
 group :test do
     gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
+    gem 'simplecov', :require => false
 end
 
 # tree library

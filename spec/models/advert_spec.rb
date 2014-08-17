@@ -198,7 +198,21 @@ describe Advert do
             field_values: {
                 'Make' => 'Toyota',
                 'Body Type' => 'Sedan',
-                # 'Fuel' => 'Vodka'
+                # 'Fuel' => 'Petrol'
+            }
+        })).not_to be_valid
+
+        # unknown field
+        expect(Advert.new({
+            title: 'selling my car',
+            description: 'a valid advert',
+            price: 100,
+            category: car_category,
+            field_values: {
+                'Make' => 'Toyota',
+                'Body Type' => 'Sedan',
+                'Fuel' => 'Petrol',
+                'Lol' => 'Wut'
             }
         })).not_to be_valid
 

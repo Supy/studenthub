@@ -49,5 +49,10 @@ class Advert < ActiveRecord::Base
                 end
             end
 
+            unknown_fields = field_values.keys - field_definition.keys
+            if not unknown_fields.empty?
+                errors.add(:field_values, "Unknown fields #{unknown_fields.join ', '}")
+            end
+
         end
 end

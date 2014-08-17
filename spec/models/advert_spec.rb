@@ -15,74 +15,96 @@ describe Advert do
         })
     end
 
-    it 'can be constructed' do
-        expect(Advert.new({
-            title: 'Something for sale!',
-            description: 'The description of the item',
-            price: 130.12,
-            category: blank_category
-        })).to be_valid
+    context 'when constructed correctly' do
+        it 'is valid with exact price value' do
+            expect(Advert.new({
+                title: 'Something for sale!',
+                description: 'The description of the item',
+                price: 130.12,
+                category: blank_category
+            })).to be_valid
+        end
 
-        expect(Advert.new({
-            title: 'Something for sale (SWAP)!',
-            description: 'The description of the item',
-            price_type: :swap,
-            category: blank_category
-        })).to be_valid
+        it 'is valid when type is swap' do
+            expect(Advert.new({
+                title: 'Something for sale (SWAP)!',
+                description: 'The description of the item',
+                price_type: :swap,
+                category: blank_category
+            })).to be_valid
+        end
 
-        expect(Advert.new({
-            title: 'Something for sale (FREE)!',
-            description: 'The description of the item',
-            price_type: :free,
-            category: blank_category
-        })).to be_valid
+        it 'is valid when type is free' do
+            expect(Advert.new({
+                title: 'Something for sale (FREE)!',
+                description: 'The description of the item',
+                price_type: :free,
+                category: blank_category
+            })).to be_valid
+        end
 
-        expect(Advert.new({
-            title: 'Something for sale (POA)!',
-            description: 'The description of the item',
-            price_type: :price_on_application,
-            category: blank_category
-        })).to be_valid
+        it 'is valid when type is poa' do
+            expect(Advert.new({
+                title: 'Something for sale (POA)!',
+                description: 'The description of the item',
+                price_type: :price_on_application,
+                category: blank_category
+            })).to be_valid
+        end
     end
 
-    it 'is invalid with bad title length' do
-        expect(Advert.new({
-            description: 'some description',
-            price: 1,
-            category: blank_category
-        })).not_to be_valid
-        expect(Advert.new({
-            title: '',
-            description: 'some description',
-            price: 1,
-            category: blank_category
-        })).not_to be_valid
-        expect(Advert.new({
-            title: 'a' + 'title' * 20,
-            description: 'some description',
-            price: 1,
-            category: blank_category
-        })).not_to be_valid
-    end
+    context 'when constructed incorrectly' do
+        it 'is invalid with missing title' do
+            expect(Advert.new({
+                description: 'some description',
+                price: 1,
+                category: blank_category
+            })).not_to be_valid
+        end
 
-    it 'is invalid with bad description length' do
-        expect(Advert.new({
-            title: 'some title',
-            price: 1,
-            category: blank_category
-        })).not_to be_valid
-        expect(Advert.new({
-            title: 'some title',
-            description: '',
-            price: 1,
-            category: blank_category
-        })).not_to be_valid
-        expect(Advert.new({
-            title: 'some title',
-            description: 'some description' * 5000,
-            price: 1,
-            category: blank_category
-        })).not_to be_valid
+        it 'is invalid with empty title' do
+            expect(Advert.new({
+                title: '',
+                description: 'some description',
+                price: 1,
+                category: blank_category
+            })).not_to be_valid
+        end
+
+        it 'is invalid with title that is too long' do
+            expect(Advert.new({
+                title: 'a' + 'title' * 20,
+                description: 'some description',
+                price: 1,
+                category: blank_category
+            })).not_to be_valid
+        end
+
+        it 'is invalid with missing description' do
+            expect(Advert.new({
+                title: 'some title',
+                price: 1,
+                category: blank_category
+            })).not_to be_valid
+        end
+
+        it 'is invalid with empty description' do
+            expect(Advert.new({
+                title: 'some title',
+                description: '',
+                price: 1,
+                category: blank_category
+            })).not_to be_valid
+        end
+
+        it 'is invalid with description that is too long' do
+            expect(Advert.new({
+                title: 'some title',
+                description: 'some description' * 5000,
+                price: 1,
+                category: blank_category
+            })).not_to be_valid
+        end
     end
 
     it 'is invalid with exact_price price type and no price' do

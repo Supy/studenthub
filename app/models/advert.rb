@@ -41,7 +41,7 @@ class Advert < ActiveRecord::Base
 
             field_definition.each do |name, attributes|
                 if attributes.include? 'required' and attributes['required'] == true
-                    if not field_values.include? name or field_values[name].empty?
+                    if not field_values.include? name or field_values[name].blank?
                         errors.add(:field_values, "Missing value for required field #{name}.")
                     end
                 end

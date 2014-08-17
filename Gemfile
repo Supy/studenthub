@@ -18,12 +18,13 @@ gem 'uglifier', '>= 1.3.0'
 
 # deployment
 group :development, :test do
-  gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
+    gem 'capistrano'
+    gem 'capistrano-rails'
+    gem 'capistrano-rvm'
 
-  gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
-  gem 'simplecov', require: false
+    gem 'rspec-rails', '~> 3.0.0'   # Rspec runs our unit tests
+    gem 'simplecov', require: false
+    gem 'factory_girl_rails', '~> 4.4.1'
 end
 
 # javascript runtime

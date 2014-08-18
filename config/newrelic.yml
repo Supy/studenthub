@@ -1,5 +1,5 @@
 common: &default_settings
-  license_key: <%= ENV['STUDENTHUB_NEWRELIC_KEY'] %>
+  license_key: <%= ENV['studenthub_newrelic_key'] %>
 
   agent_enabled: auto
 

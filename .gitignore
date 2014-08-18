@@ -27,3 +27,6 @@ config/initializers/secret_token.rb
 
 # Ignore closure-tree locks
 .lock*
+
+# Ignore application configuration
+/config/application.yml

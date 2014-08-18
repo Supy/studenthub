@@ -36,3 +36,6 @@ gem 'therubyracer',  platforms: :ruby
 gem 'jquery-rails', '~> 3.1.1'
 
 gem 'newrelic_rpm'
+
+# configuration
+gem 'figaro'

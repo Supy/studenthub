@@ -1,0 +1,15 @@
+# Figaro application configuration
+#
+# Places these values into environment variables for use in other configuration files.
+
+studenthub_newrelic_key:
+
+production:
+    studenthub_secret_key_base:
+    studenthub_database_username:
+    studenthub_database_password:
+
+staging:
+    studenthub_secret_key_base:
+    studenthub_database_username:
+    studenthub_database_password:

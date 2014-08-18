@@ -34,6 +34,3 @@ gem 'therubyracer',  platforms: :ruby
 
 # jquery!
 gem 'jquery-rails', '~> 3.1.1'
-
-# tree library
-gem 'closure_tree', '~> 5.0.0'

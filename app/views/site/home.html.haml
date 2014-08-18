@@ -1,0 +1,80 @@
+.jumbotron.home-search
+    .container
+        .row
+            .col-sm-12
+                %p.main_description Search through student textbook classifieds.
+                %br
+                %br
+                .row
+                    .col-sm-8.col-sm-offset-2(style='text-align: center;')
+                        .row
+                            .col-sm-10.col-sm-offset-1
+                                .input-group
+                                    %span.input-group-addon.input-group-addon-text Find me
+                                    = text_field_tag :query, '', class: 'form-control col-sm-3', placeholder: 'Title / Author / ISBN'
+                                    .input-group-addon.hidden-xs
+                                        .btn-group
+                                            %button.btn.dropdown-toggle(data-toggle='dropdown')
+                                                All categories
+                                                %span.caret
+                                            %ul.dropdown-menu(role='menu')
+                                                %li
+                                                    %a(href='#') Textbooks
+                %br
+                %br
+                .row
+                    .col-sm-12(style='text-align: center;')
+                        = link_to 'Search', '#', class: 'btn btn-primary search-btn'
+
+.container
+    .row
+        .col-sm-12.col-md-8
+            .row.directory
+                .col-sm-12
+                    %h2
+                        %span Directory listings
+            .row.directory
+                .col-xs-12
+                    .directory-block.col-sm-4.col-xs-6
+                        .row
+                            .col-sm-3
+                                %i.fa.fa-book
+                            .col-sm-9
+                                %h4 Textbooks
+                                %p
+                                    #{link_to 'Commerce', '#'}, #{link_to 'Science', '#'}, #{link_to 'Engineering', '#'}, #{link_to 'Humanities', '#'}, #{link_to 'Law', '#'}, #{link_to 'Medicine', '#'}, #{link_to 'Arts', '#'}, #{link_to 'Education', '#'}
+                    .directory-block.col-sm-4.col-xs-6
+                        .row
+                            .col-sm-3
+                                %i.fa.fa-home
+                            .col-sm-9
+                                %h4 Accommodation
+                                %p
+                                    #{link_to 'Residence swap', '#'}, #{link_to 'For rent', '#'}, #{link_to 'For sale', '#'}
+                    .directory-block.col-sm-4.col-xs-6
+                        .row
+                            .col-sm-3
+                                %i.fa.fa-car
+                            .col-sm-9
+                                %h4 Lift clubs
+                                %p
+
+        .col-xs-12.col-md-4
+            .row
+                .col-xs-12.col-sm-3.col-md-12.col-lg-11.pull-right
+                    %br.hidden-sm.hidden-xs
+                    %br.hidden-sm.hidden-xs
+                    %br.hidden-sm.hidden-xs
+                    .panel.panel-default
+                        .panel-heading Quick guides
+                        %ul.list-group
+                            %li.list-group-item= link_to 'Our tips to stay safe'
+                            %li.list-group-item= link_to 'How to buy guide'
+                            %li.list-group-item= link_to 'How to sell guide'
+                            %li.list-group-item= link_to 'Common questions'
+
+                .col-xs-12.col-sm-4.col-md-12.col-lg-11.pull-right
+                    .panel.panel-default
+                        .panel-heading Premium listings
+                        .panel-body
+                            .featured-gallery

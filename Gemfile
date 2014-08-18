@@ -39,3 +39,6 @@ gem 'newrelic_rpm'
 
 # configuration
 gem 'figaro'
+
+# tree library
+gem 'closure_tree', '~> 5.0.0'

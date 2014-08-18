@@ -1,4 +1,4 @@
-# load new relic recipes
+# Load New Relic recipes
 require 'new_relic/recipes'
 
 # Load DSL and Setup Up Stages

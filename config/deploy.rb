@@ -17,7 +17,7 @@ set :ssh_options, {
     port: 2222
 }
 
-after "deploy:updated", "newrelic:notice_deployment"
+after 'deploy:updated', 'newrelic:notice_deployment'
 
 namespace :deploy do
 

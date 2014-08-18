@@ -29,3 +29,23 @@ namespace :deploy do
 
   after :publishing, :restart
 end
+
+namespace :figaro do
+    desc 'SCP transfer Figaro application.yml configuration to the shared folder'
+    task :setup do
+        on roles(:app) do
+            upload! 'config/application.yml', "#{shared_path}/application.yml", via: :scp
+        end
+    end
+
+    desc 'Symlink application.yml to the release path'
+    task :symlink do
+        on roles(:app) do
+            execute "ln -sf #{shared_path}/application.yml #{release_path}/config/application.yml"
+        end
+    end
+end
+
+# Transfer application.yml on deploy.
+after 'deploy:started', 'figaro:setup'
+after 'deploy:updating', 'figaro:symlink'

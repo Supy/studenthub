@@ -13,7 +13,7 @@ class Accomodation < ActiveRecord::Base
 
     # validations
     validates :title, presence: true, length: { minimum: 10 }
-    validates :description, presence: true, length: { minimum: 50, maximum: 5000 }
+    validates :description, presence: true, length: { in: 50..5000 }
     validates :accomodation_type, presence: true
     validates :dwelling_type, presence: true
     validates :size_sqm, numericality: { greater_than: 0 }
@@ -21,7 +21,7 @@ class Accomodation < ActiveRecord::Base
     validates :bathrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
     # validates :parking_type
     validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
-    #validates :available_from
+    validates :available_from, presence: true
     #validates :pets_allowed
     #validates :smoking_allowed
     #validates :preffered_gender
@@ -30,5 +30,16 @@ class Accomodation < ActiveRecord::Base
     validates :places_available, presence: true, numericality: { greater_than: 0 }, if: Proc.new {|a| a.for_rent? or a.for_sharing? }
     validates :location_id, presence: true
 
+    # more complex validations
+    validate :available_from_must_be_sensible
 
+    private
+
+        def available_from_must_be_sensible
+            if available_from < Date.today
+                errors.add(:available_from, "can't be in the past")
+            elsif available_from > (Date.today + 365)
+                errors.add(:available_from, 'must be within a years time')
+            end
+        end
 end

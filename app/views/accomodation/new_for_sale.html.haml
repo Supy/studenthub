@@ -1,0 +1,62 @@
+.container
+
+    %h2 Create new Selling Advert:
+    %br
+
+    .col-sm-12
+        = form_for @accomodation, url: accomodation_index_path, html: {class: 'form-vertical'} do |f|
+            = f.hidden_field :accomodation_type, value: @accomodation.accomodation_type
+
+            .panel.panel-default
+                .panel-body
+                    .form-group
+                        .row
+                            .col-sm-12
+                                = f.label :title
+                                = f.text_field :title, class: 'form-control'
+
+                            .col-sm-12
+                                %br
+                                = f.label :description
+                                = f.text_area :description, class: 'form-control', rows: 6
+
+            .panel.panel-default
+                .panel-heading
+                    Information
+                .panel-body
+                    .form-group
+                        .row
+                            .col-sm-6.pad-top-5.pad-bottom-5
+                                = f.label :dwelling_type
+                                = f.select :dwelling_type, humanize_enums(Accomodation.dwelling_types), {include_blank: true}, class: 'form-control'
+
+                            .col-sm-6.pad-top-5.pad-bottom-5
+                                = f.label :size_sqm
+                                = f.number_field :size_sqm, class: 'form-control'
+
+                            .col-sm-6.pad-top-5.pad-bottom-5
+                                = f.label :bedrooms
+                                = f.number_field :bedrooms, class: 'form-control'
+
+                            .col-sm-6.pad-top-5.pad-bottom-5
+                                = f.label :bathrooms
+                                = f.number_field :bathrooms, class: 'form-control'
+
+                            .col-sm-6.pad-top-5.pad-bottom-5
+                                = f.label :parking_type
+                                = f.select :parking_type, humanize_enums(Accomodation.parking_types), {include_blank: true}, class: 'form-control'
+
+
+            .panel.panel-default
+                .panel-heading
+                    Restrictions
+                .panel-body
+                    .row
+                        .col-sm-6.pad-top-5.pad-bottom-5
+                            %label.checkbox
+                                = f.check_box :smoking_allowed
+                                = :smoking_allowed.to_s.humanize
+                        .col-sm-6.pad-top-5.pad-bottom-5
+                            %label.checkbox
+                                = f.check_box :pets_allowed
+                                = :pets_allowed.to_s.humanize

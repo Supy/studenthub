@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140818082005) do
+ActiveRecord::Schema.define(version: 20140820090604) do
+
+  create_table "accomodations", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "accomodation_type"
+    t.integer  "dwelling_type"
+    t.integer  "size_sqm"
+    t.integer  "bedrooms"
+    t.integer  "bathrooms"
+    t.integer  "parking_type"
+    t.float    "price"
+    t.date     "available_from"
+    t.boolean  "pets_allowed"
+    t.boolean  "smoking_allowed"
+    t.integer  "preferred_gender"
+    t.integer  "advertiser_type"
+    t.integer  "share_type"
+    t.integer  "places_available"
+    t.integer  "location_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "location_hierarchies", force: true do |t|
     t.integer "ancestor_id",   null: false

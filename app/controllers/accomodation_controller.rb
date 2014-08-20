@@ -6,14 +6,27 @@ class AccomodationController < ApplicationController
 
     def new
         @accomodation = Accomodation.new
+
+        if ['for_sale', 'for_rent', 'for_sharing'].include? params[:type]
+            @accomodation.accomodation_type = params[:type]
+            render action: "new_#{params[:type]}"
+        else
+            render action: 'new_without_type'
+        end
     end
 
     def create
+        # first make sure accomodation_type is valid
+        if not ['for_sale', 'for_rent', 'for_sharing'].include? accomodation_params['accomodation_type']
+            return redirect_to new_accomodation_path
+        end
+
+        # continue
         @accomodation = Accomodation.new(accomodation_params)
         if @accomodation.save
             redirect_to @accomodation
         else
-            render action: 'new'
+            render action: "new_#{@accomodation.accomodation_type}"
         end
     end
 

@@ -43,15 +43,33 @@ describe AccomodationController, :type => :controller do
                 post :create, accomodation: bad_attrs
             end.not_to change(Accomodation, :count)
             expect(response).to be_success
-            expect(response).to render_template 'new'
+            expect(response).to render_template 'new_for_sharing'
+        end
+
+        it 'renders new when bad type' do
+            bad_attrs = good_attrs
+            bad_attrs['accomodation_type'] = 'unknown'
+            expect do
+                post :create, accomodation: bad_attrs
+            end.not_to change(Accomodation, :count)
+            expect(response).to be_redirect
+            expect(response).to redirect_to new_accomodation_path
         end
     end
 
     describe 'GET new' do
-        it 'returns http success' do
+        it 'returns http success if type is specified' do
+            get :new, type: 'for_sale'
+            expect(response).to be_success
+            expect(response).to render_template 'new_for_sale'
+            expect(assigns(:accomodation).id).to be_nil
+            expect(assigns(:accomodation).accomodation_type).to eq('for_sale')
+        end
+
+        it 'renders type select if no type provided' do
             get :new
             expect(response).to be_success
-            expect(response).to render_template 'new'
+            expect(response).to render_template 'new_without_type'
             expect(assigns(:accomodation).id).to be_nil
         end
     end

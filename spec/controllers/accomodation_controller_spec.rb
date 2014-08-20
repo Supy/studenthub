@@ -14,7 +14,7 @@ describe AccomodationController, :type => :controller do
             get :index
             expect(response).to be_success
             expect(response).to render_template 'index'
-            expect(list).to eq(assigns(:accomodation))
+            expect(list).to eq(assigns(:accomodations))
         end
     end
 

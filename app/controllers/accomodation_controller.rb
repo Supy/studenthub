@@ -1,7 +1,7 @@
 class AccomodationController < ApplicationController
 
     def index
-        @accomodation = Accomodation.all
+        @accomodations = Accomodation.all
     end
 
     def new

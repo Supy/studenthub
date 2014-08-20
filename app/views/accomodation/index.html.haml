@@ -1,0 +1,22 @@
+.container
+    .row
+        .col-md-12
+            .table-responsive
+                %table.table.table-bordered
+                    %thead
+                        %tr
+                            %th Title
+                            %th Location
+                            %th Price
+                    %tbody
+                        - unless @accomodations.empty?
+                            - @accomodations.each do |a|
+                                %tr
+                                    %td= link_to a.title, a
+                                    %td= a.location.name
+                                    %td= a.price
+                        - else
+                            %tr
+                                %td.text-center{ colspan: 3 }
+                                    %p
+                                        Oops, no ads have been posted

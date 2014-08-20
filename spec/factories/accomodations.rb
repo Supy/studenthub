@@ -30,11 +30,12 @@ FactoryGirl.define do
         end
 
         trait :for_share do
-            accomodation_type :sharing
+            accomodation_type :for_sharing
             dwelling_type :apartment
             size_sqm 200
+            price 3000.12
             places_available 1
-            share_type :home_share
+            share_type :room_available
         end
     end
 end

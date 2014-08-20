@@ -94,6 +94,31 @@ describe AccomodationController, :type => :controller do
         end
     end
 
+    describe 'PUT update' do
+        let!(:test_accomodation) { FactoryGirl.create :accomodation, :for_sale }
+        let(:good_attrs) do
+            tmp = FactoryGirl.build(:accomodation, :for_share).attributes
+            tmp['accomodation_type'] = :for_sharing
+            tmp['dwelling_type'] = :apartment
+            tmp['share_type'] = :room_available
+            tmp['advertiser_type'] = :current_resident
+            tmp['title'] = 'Some Different Digs Title'
+            tmp['description'] = 'A more awesome description than what it was. This is better!'
+            tmp['bedrooms'] = 4
+            tmp['bathrooms'] = 5
+            tmp['advertiser_type'] = :owner
+            tmp['location'] = FactoryGirl.create(:city_location).id
+            tmp['available_from'] = Date.new(2015,1,1)
+            tmp
+        end
+
+        it 'redirects to show upon successful patch' do
+            put :update, id: test_accomodation.id, accomodation: good_attrs
+            expect(response).to be_redirect
+            expect(response).to redirect_to test_accomodation
+        end
+    end
+
     describe 'DELETE destroy' do
         let(:test_accomodation) { FactoryGirl.create :accomodation, :for_sale }
 

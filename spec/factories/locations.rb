@@ -9,6 +9,6 @@ FactoryGirl.define do
         name 'Suburb'
         longitude 14.01
         latitude -25.99
-        parent = create(:city_location)
+        association :parent, factory: :city_location
     end
 end

@@ -3,3 +3,21 @@
  *= require 'bootlistings/theme.less'
  *= require_self
  */
+
+$footer_height: 70px;
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: $footer_height;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: $footer_height;
+    background-color: #f5f5f5;
+}

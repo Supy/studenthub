@@ -6,13 +6,15 @@ describe AccomodationController, :type => :controller do
         it 'returns http success' do
             get :index
             expect(response).to be_success
+            expect(response).to render_template('index')
         end
     end
 
-    describe 'POST index' do
+    describe 'POST create' do
         it 'returns http success' do
-            post :index
+            post :create
             expect(response).to be_success
+            expect(response).to render_template('show')
         end
     end
 
@@ -20,6 +22,7 @@ describe AccomodationController, :type => :controller do
         it 'returns http success' do
             get :new
             expect(response).to be_success
+            expect(response).to render_template('new')
         end
     end
 
@@ -27,6 +30,7 @@ describe AccomodationController, :type => :controller do
         it 'returns http success' do
             get :edit, id: 1
             expect(response).to be_success
+            expect(response).to render_template('edit')
         end
     end
 
@@ -34,6 +38,7 @@ describe AccomodationController, :type => :controller do
         it 'returns http success' do
             get :show, id: 1
             expect(response).to be_success
+            expect(response).to render_template('show')
         end
     end
 
@@ -41,6 +46,7 @@ describe AccomodationController, :type => :controller do
         it 'returns http success' do
             patch :update, id: 1
             expect(response).to be_success
+            expect(response).to render_template('show')
         end
     end
 
@@ -48,6 +54,7 @@ describe AccomodationController, :type => :controller do
         it 'returns http success' do
             put :update, id: 1
             expect(response).to be_success
+            expect(response).to render_template('show')
         end
     end
 
@@ -55,6 +62,7 @@ describe AccomodationController, :type => :controller do
         it 'returns http success' do
             delete :destroy, id: 1
             expect(response).to be_success
+            expect(response).to render_template('index')
         end
     end
 

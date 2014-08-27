@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe AccomodationController, :type => :controller do
+describe AccommodationsController, :type => :controller do
 
     describe 'GET index' do
         let!(:list) do
             [
-                FactoryGirl.create(:accomodation, :for_sale),
-                FactoryGirl.create(:accomodation, :for_rent)
+                FactoryGirl.create(:accommodations, :for_sale),
+                FactoryGirl.create(:accommodations, :for_rent)
             ]
         end
 
@@ -14,14 +14,14 @@ describe AccomodationController, :type => :controller do
             get :index
             expect(response).to be_success
             expect(response).to render_template 'index'
-            expect(list).to eq(assigns(:accomodations))
+            expect(list).to eq(assigns(:accommodations))
         end
     end
 
     describe 'POST create' do
         let(:good_attrs) do
-            tmp = FactoryGirl.build(:accomodation, :for_share).attributes
-            tmp['accomodation_type'] = :for_sharing
+            tmp = FactoryGirl.build(:accommodations, :for_share).attributes
+            tmp['accommodation_type'] = :for_sharing
             tmp['dwelling_type'] = :apartment
             tmp['share_type'] = :room_available
             tmp['advertiser_type'] = :current_resident
@@ -30,30 +30,30 @@ describe AccomodationController, :type => :controller do
 
         it 'redirects to show upon successful create' do
             expect do
-                post :create, accomodation: good_attrs
-            end.to change(Accomodation, :count).by(1)
+                post :create, accommodations: good_attrs
+            end.to change(Accommodation, :count).by(1)
             expect(response).to be_redirect
-            expect(response).to redirect_to accomodation_path(Accomodation.last)
+            expect(response).to redirect_to accommodation_path(Accommodation.last)
         end
 
         it 'renders new upon bad create' do
             bad_attrs = good_attrs
             bad_attrs['price'] = -100
             expect do
-                post :create, accomodation: bad_attrs
-            end.not_to change(Accomodation, :count)
+                post :create, accommodations: bad_attrs
+            end.not_to change(Accommodation, :count)
             expect(response).to be_success
             expect(response).to render_template 'new_for_sharing'
         end
 
         it 'renders new when bad type' do
             bad_attrs = good_attrs
-            bad_attrs['accomodation_type'] = 'unknown'
+            bad_attrs['accommodation_type'] = 'unknown'
             expect do
-                post :create, accomodation: bad_attrs
-            end.not_to change(Accomodation, :count)
+                post :create, accommodations: bad_attrs
+            end.not_to change(Accommodation, :count)
             expect(response).to be_redirect
-            expect(response).to redirect_to new_accomodation_path
+            expect(response).to redirect_to new_accommodation_path
         end
     end
 
@@ -62,61 +62,61 @@ describe AccomodationController, :type => :controller do
             get :new, type: 'for_sale'
             expect(response).to be_success
             expect(response).to render_template 'new_for_sale'
-            expect(assigns(:accomodation).id).to be_nil
-            expect(assigns(:accomodation).accomodation_type).to eq('for_sale')
+            expect(assigns(:accommodations).id).to be_nil
+            expect(assigns(:accommodations).accommodation_type).to eq('for_sale')
         end
 
         it 'renders type select if no type provided' do
             get :new
             expect(response).to be_success
             expect(response).to render_template 'new_without_type'
-            expect(assigns(:accomodation).id).to be_nil
+            expect(assigns(:accommodations).id).to be_nil
         end
     end
 
     describe 'GET edit' do
-        let(:test_accomodation) { FactoryGirl.create :accomodation, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
 
         it 'returns http success' do
-            get :edit, id: test_accomodation.id
+            get :edit, id: test_accommodation.id
             expect(response).to be_success
             expect(response).to render_template 'edit'
-            expect(test_accomodation).to eq(assigns(:accomodation))
+            expect(test_accommodation).to eq(assigns(:accommodations))
         end
     end
 
     describe 'GET show' do
-        let(:test_accomodation) { FactoryGirl.create :accomodation, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
 
         it 'returns http success' do
-            get :show, id: test_accomodation.id
+            get :show, id: test_accommodation.id
             expect(response).to be_success
             expect(response).to render_template 'show'
-            expect(test_accomodation).to eq(assigns(:accomodation))
+            expect(test_accommodation).to eq(assigns(:accommodations))
         end
     end
 
     describe 'PATCH update' do
-        let(:test_accomodation) { FactoryGirl.create :accomodation, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
 
         it 'redirects to show upon successful patch' do
-            patch :update, id: test_accomodation.id, accomodation: { 'price' => 45212.12 }
+            patch :update, id: test_accommodation.id, accommodations: { 'price' => 45212.12 }
             expect(response).to be_redirect
-            expect(response).to redirect_to test_accomodation
+            expect(response).to redirect_to test_accommodation
         end
 
         it 'redirects to edit upon bad patch' do
-            patch :update, id: test_accomodation.id, accomodation: { 'price' => -1 }
+            patch :update, id: test_accommodation.id, accommodations: { 'price' => -1 }
             expect(response).to be_success
             expect(response).to render_template 'edit'
         end
     end
 
     describe 'PUT update' do
-        let!(:test_accomodation) { FactoryGirl.create :accomodation, :for_sale }
+        let!(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
         let(:good_attrs) do
-            tmp = FactoryGirl.build(:accomodation, :for_share).attributes
-            tmp['accomodation_type'] = :for_sharing
+            tmp = FactoryGirl.build(:accommodations, :for_share).attributes
+            tmp['accommodation_type'] = :for_sharing
             tmp['dwelling_type'] = :apartment
             tmp['share_type'] = :room_available
             tmp['advertiser_type'] = :current_resident
@@ -131,20 +131,20 @@ describe AccomodationController, :type => :controller do
         end
 
         it 'redirects to show upon successful patch' do
-            put :update, id: test_accomodation.id, accomodation: good_attrs
+            put :update, id: test_accommodation.id, accommodations: good_attrs
             expect(response).to be_redirect
-            expect(response).to redirect_to test_accomodation
+            expect(response).to redirect_to test_accommodation
         end
     end
 
     describe 'DELETE destroy' do
-        let(:test_accomodation) { FactoryGirl.create :accomodation, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
 
         it 'correctly destroys the instance' do
-            delete :destroy, id: test_accomodation.id
+            delete :destroy, id: test_accommodation.id
             expect(response).to be_redirect
-            expect(response).to redirect_to accomodation_index_path
-            expect(Accomodation.exists? test_accomodation.id).to eq(false)
+            expect(response).to redirect_to accommodation_index_path
+            expect(Accommodation.exists? test_accommodation.id).to eq(false)
         end
     end
 

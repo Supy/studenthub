@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
     get 'site/home'
 
-    # Accomodation can be handled as a CRUD resource:
-    # accomodation_index  GET    /accomodation(.:format)          accomodation#index
-    # accomodation_index  POST   /accomodation(.:format)          accomodation#create
-    # new_accomodation    GET    /accomodation/new(.:format)      accomodation#new
-    # edit_accomodation   GET    /accomodation/:id/edit(.:format) accomodation#edit
-    # accomodation        GET    /accomodation/:id(.:format)      accomodation#show
-    # accomodation        PATCH  /accomodation/:id(.:format)      accomodation#update
-    # accomodation        PUT    /accomodation/:id(.:format)      accomodation#update
-    # accomodation        DELETE /accomodation/:id(.:format)      accomodation#destroy
-    resources :accomodation
+    # Accommodation can be handled as a CRUD resource:
+    # accommodation_index  GET    /accommodations(.:format)          accommodations#index
+    # accommodation_index  POST   /accommodations(.:format)          accommodations#create
+    # new_accommodation    GET    /accommodations/new(.:format)      accommodations#new
+    # edit_accommodation   GET    /accommodations/:id/edit(.:format) accommodations#edit
+    # accommodations        GET    /accommodations/:id(.:format)      accommodations#show
+    # accommodations        PATCH  /accommodations/:id(.:format)      accommodations#update
+    # accommodations        PUT    /accommodations/:id(.:format)      accommodations#update
+    # accommodations        DELETE /accommodations/:id(.:format)      accommodations#destroy
+    resources :accommodations
 
     root 'site#home'
 

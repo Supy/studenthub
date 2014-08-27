@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe AccomodationHelper do
+describe AccommodationsHelper do
 
     it 'correctly humanizes strings' do
         expect(humanize_enums([

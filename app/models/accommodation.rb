@@ -1,20 +1,20 @@
-class Accomodation < ActiveRecord::Base
+class Accommodation < ActiveRecord::Base
 
     # has a location
     belongs_to :location
 
     # enumerated types
-    enum accomodation_type: [:for_rent, :for_sale, :for_sharing]
+    enum accommodation_type: [:for_rent, :for_sale, :for_sharing]
     enum dwelling_type: [:apartment, :house, :other]
     enum parking_type: [:garage, :on_property, :street]
     enum preffered_gender: [:male, :female]
-    enum advertiser_type: [:owner, :adjency, :current_resident]
+    enum advertiser_type: [:owner, :agency, :current_resident]
     enum share_type: [:room_available, :bed_available]
 
     # validations
     validates :title, presence: true, length: { minimum: 10 }
     validates :description, presence: true, length: { in: 50..5000 }
-    validates :accomodation_type, presence: true
+    validates :accommodation_type, presence: true
     validates :dwelling_type, presence: true
     validates :size_sqm, numericality: { greater_than: 0 }
     validates :bedrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }

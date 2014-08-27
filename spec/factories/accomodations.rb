@@ -1,6 +1,6 @@
 FactoryGirl.define do
-    factory :accomodation, class: Accomodation do
-        title 'Awesome accomodation'
+    factory :accommodations, class: Accommodation do
+        title 'Awesome accommodations'
         description 'This is an awesome place! Filled with awesome people'
         available_from Date.new(2014, 9, 9)
         bedrooms 3
@@ -9,7 +9,7 @@ FactoryGirl.define do
         advertiser_type :current_resident
 
         trait :for_sale do
-            accomodation_type :for_sale
+            accommodation_type :for_sale
             dwelling_type :house
             size_sqm 600
             parking_type :garage
@@ -17,7 +17,7 @@ FactoryGirl.define do
         end
 
         trait :for_rent do
-            accomodation_type :for_rent
+            accommodation_type :for_rent
             dwelling_type :apartment
             size_sqm 400
             parking_type :garage
@@ -30,7 +30,7 @@ FactoryGirl.define do
         end
 
         trait :for_share do
-            accomodation_type :for_sharing
+            accommodation_type :for_sharing
             dwelling_type :apartment
             size_sqm 200
             price 3000.12

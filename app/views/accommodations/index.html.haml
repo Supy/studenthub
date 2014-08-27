@@ -9,8 +9,8 @@
                             %th Location
                             %th Price
                     %tbody
-                        - unless @accomodations.empty?
-                            - @accomodations.each do |a|
+                        - unless @accommodations.empty?
+                            - @accommodations.each do |a|
                                 %tr
                                     %td= link_to a.title, a
                                     %td= a.location.name

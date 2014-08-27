@@ -1,23 +1,15 @@
 class IsbnValidators
     def self.valid_isbn?(isbn)
-        if isbn.nil? or !isbn.is_a?(String)
-            raise 'ISBN must be a non-empty string.'
-        end
+        return false if isbn.nil? or !isbn.is_a?(String)
 
-        if isbn.length == 10
-            return validate_isbn10(isbn)
-        elsif isbn.length == 13
-            return validate_isbn13(isbn)
-        end
-
-        return false
+        validate_isbn10(isbn) || validate_isbn13(isbn)
     end
 
     private
 
     def self.validate_isbn10(isbn)
-        if isbn.match(/^(?:\d[\ |-]?){9}[\d|X]$/i)
-            isbn_values = isbn.upcase.gsub(/\ |-/, '').split('')
+        if /\A(?:\d[ -]?){9}[\d|X]\z/i =~ isbn
+            isbn_values = isbn.gsub(/[ -]/, '').split('')
             check_digit = isbn_values.pop
             check_digit = (check_digit.upcase == 'X') ? 10 : check_digit.to_i
 
@@ -33,8 +25,8 @@ class IsbnValidators
     end
 
     def self.validate_isbn13(isbn)
-        if isbn.match(/^(?:\d[\ |-]?){13}$/i)
-            isbn_values = isbn.upcase.gsub(/\ |-/, '').split('')
+        if isbn.match /\A(?:\d[ -]?){13}\z/i
+            isbn_values = isbn.gsub(/[ -]/, '').split('')
             check_digit = isbn_values.pop.to_i # last digit is check digit
 
             sum = 0

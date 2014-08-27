@@ -14,6 +14,36 @@ class GoogleBooksLoader
         end
     end
 
+    def self.has_required_elements(gb_data, required_elements)
+        required_elements.each_pair do |key, allowed_type|
+            keys = key.split('_')
+            tree_element = gb_data
+            keys.each do |tree_key|
+                unless tree_element.has_key?(tree_key)
+                    Rails.logger.info "Google Book data missing required key `#{key}`."
+                    return false
+                end
+
+                # Move down a level in the tree.
+                tree_element = tree_element[tree_key]
+            end
+
+            # Element must be of the correct type.
+            unless allowed_type.include?(tree_element.class)
+                Rails.logger.info "Google Book data element `#{key}` is not of required type `#{type}`. Got `#{tree_element.class}`."
+                return false
+            end
+
+            # Elements must not be empty.
+            if tree_element.size == 0
+                Rails.logger.info "Required Google Book data element `#{key}` is empty."
+                return false
+            end
+        end
+
+        true
+    end
+
     private
 
     def self.load_book_list(isbn)
@@ -24,11 +54,11 @@ class GoogleBooksLoader
             begin
                 JSON.parse(response)
             rescue Exception => e
-                logger.error "Failed to parse book information. #{e}"
+                Rails.logger.error "Failed to parse book information. #{e}"
                 nil
             end
         else
-            logger.warn "Failed to access URL #{url}. HTTP status: #{response.code}."
+            Rails.logger.warn "Failed to access URL #{url}. HTTP status: #{response.code}."
             nil
         end
     end

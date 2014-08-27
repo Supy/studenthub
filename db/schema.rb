@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827103518) do
+ActiveRecord::Schema.define(version: 20140827115749) do
 
   create_table "accommodations", force: true do |t|
     t.string   "title"
@@ -34,6 +34,22 @@ ActiveRecord::Schema.define(version: 20140827103518) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "books", force: true do |t|
+    t.string   "title"
+    t.string   "author"
+    t.text     "description"
+    t.string   "thumbnail_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "isbns", force: true do |t|
+    t.string  "isbn",    limit: 13
+    t.integer "book_id"
+  end
+
+  add_index "isbns", ["book_id"], name: "index_isbns_on_book_id"
 
   create_table "location_hierarchies", force: true do |t|
     t.integer "ancestor_id",   null: false

@@ -19,5 +19,7 @@ module Studenthub
         config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
         config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
         config.assets.precompile += %w(*.woff *.eot *.svg *.ttf)
+
+        config.autoload_paths << Rails.root.join('lib')
     end
 end

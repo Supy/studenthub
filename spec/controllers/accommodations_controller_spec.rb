@@ -62,15 +62,15 @@ describe AccommodationsController, :type => :controller do
             get :new, type: 'for_sale'
             expect(response).to be_success
             expect(response).to render_template 'new_for_sale'
-            expect(assigns(:accommodations).id).to be_nil
-            expect(assigns(:accommodations).accommodation_type).to eq('for_sale')
+            expect(assigns(:accommodation).id).to be_nil
+            expect(assigns(:accommodation).accommodation_type).to eq('for_sale')
         end
 
         it 'renders type select if no type provided' do
             get :new
             expect(response).to be_success
             expect(response).to render_template 'new_without_type'
-            expect(assigns(:accommodations).id).to be_nil
+            expect(assigns(:accommodation).id).to be_nil
         end
     end
 
@@ -81,7 +81,7 @@ describe AccommodationsController, :type => :controller do
             get :edit, id: test_accommodation.id
             expect(response).to be_success
             expect(response).to render_template 'edit'
-            expect(test_accommodation).to eq(assigns(:accommodations))
+            expect(test_accommodation).to eq(assigns(:accommodation))
         end
     end
 
@@ -92,7 +92,7 @@ describe AccommodationsController, :type => :controller do
             get :show, id: test_accommodation.id
             expect(response).to be_success
             expect(response).to render_template 'show'
-            expect(test_accommodation).to eq(assigns(:accommodations))
+            expect(test_accommodation).to eq(assigns(:accommodation))
         end
     end
 
@@ -143,7 +143,7 @@ describe AccommodationsController, :type => :controller do
         it 'correctly destroys the instance' do
             delete :destroy, id: test_accommodation.id
             expect(response).to be_redirect
-            expect(response).to redirect_to accommodation_index_path
+            expect(response).to redirect_to accommodations_path
             expect(Accommodation.exists? test_accommodation.id).to eq(false)
         end
     end

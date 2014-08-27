@@ -1,5 +1,5 @@
 FactoryGirl.define do
-    factory :accommodations, class: Accommodation do
+    factory :accommodation, class: Accommodation do
         title 'Awesome accommodations'
         description 'This is an awesome place! Filled with awesome people'
         available_from Date.new(2014, 9, 9)

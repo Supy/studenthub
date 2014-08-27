@@ -5,8 +5,8 @@ describe AccommodationsController, :type => :controller do
     describe 'GET index' do
         let!(:list) do
             [
-                FactoryGirl.create(:accommodations, :for_sale),
-                FactoryGirl.create(:accommodations, :for_rent)
+                FactoryGirl.create(:accommodation, :for_sale),
+                FactoryGirl.create(:accommodation, :for_rent)
             ]
         end
 
@@ -20,7 +20,7 @@ describe AccommodationsController, :type => :controller do
 
     describe 'POST create' do
         let(:good_attrs) do
-            tmp = FactoryGirl.build(:accommodations, :for_share).attributes
+            tmp = FactoryGirl.build(:accommodation, :for_share).attributes
             tmp['accommodation_type'] = :for_sharing
             tmp['dwelling_type'] = :apartment
             tmp['share_type'] = :room_available
@@ -75,7 +75,7 @@ describe AccommodationsController, :type => :controller do
     end
 
     describe 'GET edit' do
-        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodation, :for_sale }
 
         it 'returns http success' do
             get :edit, id: test_accommodation.id
@@ -86,7 +86,7 @@ describe AccommodationsController, :type => :controller do
     end
 
     describe 'GET show' do
-        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodation, :for_sale }
 
         it 'returns http success' do
             get :show, id: test_accommodation.id
@@ -97,7 +97,7 @@ describe AccommodationsController, :type => :controller do
     end
 
     describe 'PATCH update' do
-        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodation, :for_sale }
 
         it 'redirects to show upon successful patch' do
             patch :update, id: test_accommodation.id, accommodations: { 'price' => 45212.12 }
@@ -113,9 +113,9 @@ describe AccommodationsController, :type => :controller do
     end
 
     describe 'PUT update' do
-        let!(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
+        let!(:test_accommodation) { FactoryGirl.create :accommodation, :for_sale }
         let(:good_attrs) do
-            tmp = FactoryGirl.build(:accommodations, :for_share).attributes
+            tmp = FactoryGirl.build(:accommodation, :for_share).attributes
             tmp['accommodation_type'] = :for_sharing
             tmp['dwelling_type'] = :apartment
             tmp['share_type'] = :room_available
@@ -138,7 +138,7 @@ describe AccommodationsController, :type => :controller do
     end
 
     describe 'DELETE destroy' do
-        let(:test_accommodation) { FactoryGirl.create :accommodations, :for_sale }
+        let(:test_accommodation) { FactoryGirl.create :accommodation, :for_sale }
 
         it 'correctly destroys the instance' do
             delete :destroy, id: test_accommodation.id

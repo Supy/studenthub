@@ -11,7 +11,13 @@ RSpec.describe Isbn do
         context 'of incorrect type' do
             it 'should be invalid' do
                 expect(build(:isbn, isbn: nil)).to_not be_valid
-                expect(build(:isbn, isbn: 1234567890123)).to_not be_valid
+                expect(build(:isbn, isbn: 1234567890121)).to_not be_valid
+            end
+        end
+
+        context 'of arbitrary length' do
+            it 'should be invalid' do
+                expect(build(:isbn, isbn: '12345678901234')).to_not be_valid
             end
         end
 

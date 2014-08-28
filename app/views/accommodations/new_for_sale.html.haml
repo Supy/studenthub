@@ -33,7 +33,10 @@
                     Price
                 .panel-body
                     .form-group
-                        = f.text_field :price, data: {autonumeric: {aSign: 'R ', mDec: 2}}, class: 'form-control', placeholder: 'R 00.00'
+                        = f.text_field :price,
+                            data: {autonumeric: {aSign: 'R ', mDec: 2}},
+                            class: 'form-control',
+                            placeholder: 'R 00.00'
 
             .panel.panel-default
                 .panel-heading
@@ -44,12 +47,16 @@
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :advertiser_type
                                 %span.help-block Who is selling the accomodation?
-                                = f.select :advertiser_type, humanize_enums(Accommodation.advertiser_types), {include_blank: true}, class: 'form-control'
+                                = f.select :advertiser_type, humanize_enums(Accommodation.advertiser_types),
+                                    {include_blank: true},
+                                    class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :dwelling_type
                                 %span.help-block What kind of dwelling is it?
-                                = f.select :dwelling_type, humanize_enums(Accommodation.dwelling_types), {include_blank: true}, class: 'form-control'
+                                = f.select :dwelling_type, humanize_enums(Accommodation.dwelling_types),
+                                    {include_blank: true},
+                                    class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :size_sqm
@@ -69,14 +76,17 @@
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :parking_type
                                 %span.help-block Is parking available?
-                                = f.select :parking_type, humanize_enums(Accommodation.parking_types), {include_blank: true}, class: 'form-control'
+                                = f.select :parking_type, humanize_enums(Accommodation.parking_types),
+                                    {include_blank: true},
+                                    class: 'form-control'
 
 
             .panel.panel-default
                 .panel-heading
                     Restrictions
                 .panel-body
-                    %span.help-block Some properties, such as apartments, have restrictions. Which of these apply to your property?
+                    %span.help-block
+                        Some properties, such as apartments, have restrictions. Which of these apply to your property?
                     .row
                         .col-sm-6.pad-top-5.pad-bottom-5
                             %label.checkbox

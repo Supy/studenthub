@@ -121,7 +121,7 @@ describe AccommodationsController, type: :controller do
             tmp['share_type'] = :room_available
             tmp['advertiser_type'] = :current_resident
             tmp['advertiser_type'] = :owner
-            tmp['location'] = FactoryGirl.create(:city_location).id
+            tmp['location'] = FactoryGirl.create(:location).id
             tmp['available_from'] = Date.new(2015,1,1)
             tmp
         end

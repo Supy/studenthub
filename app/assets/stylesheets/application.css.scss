@@ -4,7 +4,10 @@
  *= require_self
  */
 
+// the height of the footer bar
 $footer_height: 70px;
+// padding above the footer bar
+$footer_padding: 20px;
 
 html {
     position: relative;
@@ -12,7 +15,7 @@ html {
 }
 
 body {
-    margin-bottom: $footer_height;
+    margin-bottom: $footer_height + $footer_padding;
 }
 
 .footer {

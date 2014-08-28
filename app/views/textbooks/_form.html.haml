@@ -1,25 +1,45 @@
-= form_for @textbook do |f|
-  - if @textbook.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@textbook.errors.count, "error")} prohibited this textbook from being saved:"
-      %ul
-        - @textbook.errors.full_messages.each do |msg|
-          %li= msg
+= form_for @textbook, html: { class: 'form-vertical' } do |f|
+    = f.hidden_field :book_id, value: @book.id
+    - if @textbook.errors.any?
+        #error_explanation
+            %h2= "#{pluralize(@textbook.errors.count, 'error')} prohibited this textbook ad from being saved:"
+            %ul
+            - @textbook.errors.full_messages.each do |msg|
+                %li= msg
+    .panel.panel-default
+        .panel-heading
+            Book information
+        .panel-body
+            .form-group
+                .row
+                    .col-sm-6
+                        .row
+                            .col-sm-12.pad-top-5.pad-bottom-5
+                                %label Title
+                                = text_field_tag 'book[title]', @book.title, readonly: true, class: 'form-control'
+                            .col-sm-12.pad-top-5.pad-bottom-5
+                                %label Author
+                                = text_field_tag 'book[author]', @book.author, readonly: true, class: 'form-control'
+                            .col-sm-12.pad-top-5.pad-bottom-5
+                                %label Edition
+                                = f.number_field :edition, class: 'form-control'
 
-  .field
-    = f.label :book
-    = f.text_field :book
-  .field
-    = f.label :edition
-    = f.number_field :edition
-  .field
-    = f.label :price
-    = f.number_field :price
-  .field
-    = f.label :condition
-    = f.number_field :condition
-  .field
-    = f.label :comments
-    = f.text_area :comments
-  .actions
-    = f.submit 'Save'
+                    .col-sm-6(style='text-align: center')
+                        = image_tag @book.thumbnail_url unless @book.thumbnail_url.nil?
+    .panel.panel-default
+        .panel-heading
+            Advert information
+        .panel-body
+            .form-group
+                .row
+                    .col-sm-6.pad-top-5.pad-bottom-5
+                        %label Price
+                        = f.number_field :price, class: 'form-control'
+                    .col-sm-6.pad-top-5.pad-bottom-5
+                        %label Condition
+                        = f.select :condition, humanize_enums(Textbook.conditions), {}, class: 'form-control'
+                    .col-sm-12.pad-top-5.pad-bottom-5
+                        %label Additional comments
+                        = f.text_area :comments, rows: 6, class: 'form-control expand'
+                    .col-sm-2.pad-top-5.pad-bottom-5
+                        = f.submit 'Save', class: 'btn btn-primary'

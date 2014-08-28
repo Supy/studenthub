@@ -1,21 +1,44 @@
-%p#notice= notice
+- # TODO: need a better way to manage these sub-header layouts
+= render partial: 'layouts/search_jumbotron'
 
-%p
-  %b Book:
-  = @textbook.book
-%p
-  %b Edition:
-  = @textbook.edition
-%p
-  %b Price:
-  = @textbook.price
-%p
-  %b Condition:
-  = @textbook.condition
-%p
-  %b Comments:
-  = @textbook.comments
+#listings-page.container
+    .row
+        .col-sm12.listing-wrapper.listings-top.listings-bottom
+            %br
+            .row
+                .col-sm-8
+                    %h1= @book.title
+                    %p User's location
 
-= link_to 'Edit', edit_textbook_path(@textbook)
-\|
-= link_to 'Back', textbooks_path
+                .col-sm-4
+                    %p.price= number_to_currency(@textbook.price, precision: 0, delimiter: ' ', unit: 'R')
+
+            %hr
+            .row
+                .col-sm-8
+                    .row
+                        .col-xs-12
+                            %h3 Ad details
+                            %table.table
+                                %tbody
+                                    %tr
+                                        %th Author
+                                        %td= @book.author
+                                    %tr
+                                        %th Edition
+                                        %td= @textbook.edition
+                                    %tr
+                                        %th Condition
+                                        %td= @textbook.condition.humanize
+                                    %tr
+                                        %th Date posted
+                                        %td #{distance_of_time_in_words_to_now(@textbook.created_at).capitalize} ago
+                    %p= @textbook.comments unless @textbook.comments.blank?
+
+                .col-sm-4.center.zoom-gallery
+                    .row.center
+                        .col-sm-12
+                            = image_tag @book.thumbnail_url
+                            %br
+                            %br
+                            #gallery.row

@@ -1,10 +1,13 @@
-require "rails_helper"
+require 'rails_helper'
 
 describe ApplicationHelper do
-
-    # just a junk test to make sure rspec is running nicely
-    it "verifies that true is true" do
-        expect(false).to eq(false)
+    it 'correctly humanizes strings' do
+        expect(humanize_enums([
+            [:enum_name, 0],
+            [:another_enum, 1],
+        ])).to eq([
+            ['Enum name', :enum_name],
+            ['Another enum', :another_enum],
+        ])
     end
-
 end

@@ -6,6 +6,7 @@ class TextbooksController < ApplicationController
     end
 
     def show
+        @book = @textbook.book
     end
 
     def new
@@ -18,6 +19,7 @@ class TextbooksController < ApplicationController
     end
 
     def edit
+        @book = @textbook.book
     end
 
     def create
@@ -36,7 +38,11 @@ class TextbooksController < ApplicationController
     end
 
     def update
-        if @textbook.update(textbook_params)
+        # Don't allow the book to be changed.
+        new_params = textbook_params
+        new_params.delete(:book_id)
+
+        if @textbook.update(new_params)
             redirect_to @textbook, notice: 'Textbook was successfully updated.'
         else
             render :edit
@@ -49,11 +55,12 @@ class TextbooksController < ApplicationController
     end
 
     private
-    def set_textbook
-        @textbook = Textbook.find(params[:id])
-    end
 
-    def textbook_params
-        params.require(:textbook).permit(:book_id, :edition, :price, :condition, :comments)
-    end
+        def set_textbook
+            @textbook = Textbook.find(params[:id])
+        end
+
+        def textbook_params
+            params.require(:textbook).permit(:book_id, :edition, :price, :condition, :comments)
+        end
 end

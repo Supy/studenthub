@@ -10,6 +10,7 @@ class BookController < ApplicationController
         if matching_isbn
             redirect_to(new_textbook_path(book_id: matching_isbn.book_id))
         else
+            logger.info "Fetching book data from Google Books for ISBN #{params[:isbn]}."
             book = Book.from_google_books(GoogleBooksLoader.get_for_isbn(params[:isbn]))
 
             # False means there was an error with Google Books API

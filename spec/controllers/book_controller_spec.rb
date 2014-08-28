@@ -37,7 +37,8 @@ RSpec.describe BookController, :type => :controller do
             end
 
             context 'of new book' do
-                let(:example_isbn) { '9780393974218' }
+                # Test ISBN should contain non-numeric characters to test it is being cleaned.
+                let(:example_isbn) { '978-03 9397-4218' }
 
                 it 'redirects user to Textbook#new with book ID populated' do
                     post :load, { isbn: example_isbn }, valid_session

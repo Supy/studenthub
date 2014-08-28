@@ -1,6 +1,6 @@
 FactoryGirl.define do
     factory :isbn do
-        isbn '9780393974218'
+        isbn '978-0393 97421-8'
         book
     end
 end

@@ -14,7 +14,7 @@ class GoogleBooksLoader
         end
     end
 
-    def self.has_required_elements(gb_data, required_elements)
+    def self.has_required_elements?(gb_data, required_elements)
         required_elements.each_pair do |key, allowed_type|
             keys = key.split('_')
             tree_element = gb_data
@@ -30,7 +30,7 @@ class GoogleBooksLoader
 
             # Element must be of the correct type.
             unless allowed_type.include?(tree_element.class)
-                Rails.logger.info "Google Book data element `#{key}` is not of required type `#{type}`. Got `#{tree_element.class}`."
+                Rails.logger.info "Google Book data element `#{key}` is not of required type `#{allowed_type}`. Got `#{tree_element.class}`."
                 return false
             end
 
@@ -50,9 +50,9 @@ class GoogleBooksLoader
         url = API_URL % { isbn: isbn }
         response = make_request(url)
 
-        if response.code == 200
+        if response.code.to_i == 200
             begin
-                JSON.parse(response)
+                JSON.parse(response.body)
             rescue Exception => e
                 Rails.logger.error "Failed to parse book information. #{e}"
                 nil

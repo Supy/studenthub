@@ -15,7 +15,7 @@ class Book < ActiveRecord::Base
             'volumeInfo_industryIdentifiers' => [Array]
         }
 
-        if GoogleBooksLoader.has_required_elements(gb_data, required_elements)
+        if GoogleBooksLoader.has_required_elements?(gb_data, required_elements)
             book_attributes = { isbns_attributes: [] }
             book_attributes[:title] = gb_data['volumeInfo']['title']
             book_attributes[:author] = ([] << gb_data['volumeInfo']['authors']).flatten.join(', ')

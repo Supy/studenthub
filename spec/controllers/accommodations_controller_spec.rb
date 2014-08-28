@@ -120,10 +120,6 @@ describe AccommodationsController, type: :controller do
             tmp['dwelling_type'] = :apartment
             tmp['share_type'] = :room_available
             tmp['advertiser_type'] = :current_resident
-            tmp['title'] = 'Some Different Digs Title'
-            tmp['description'] = 'A more awesome description than what it was. This is better!'
-            tmp['bedrooms'] = 4
-            tmp['bathrooms'] = 5
             tmp['advertiser_type'] = :owner
             tmp['location'] = FactoryGirl.create(:city_location).id
             tmp['available_from'] = Date.new(2015,1,1)

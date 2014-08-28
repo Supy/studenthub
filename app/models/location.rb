@@ -9,6 +9,7 @@ class Location < ActiveRecord::Base
 
     validates :name, presence: true, allow_blank: false
     validates :name, length: {minimum: 3}
+    validates :name, uniqueness: {scope: :parent_id}
     validate :location_is_valid_or_blank
 
     private

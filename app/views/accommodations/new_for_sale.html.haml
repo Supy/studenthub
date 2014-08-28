@@ -34,9 +34,15 @@
                 .panel-heading
                     Location
                 .panel-body
+                    %span.help-block
+                        Advertising the location of the item is critical since people want to buy items in a certain area.
+                        Specify the location as accurately as possible.
+
                     .form-group
-                        %p
-                            Some method of picking a location from a location tree
+                        = f.collection_select :location_id,
+                            Location.roots, :id, :name,
+                            {include_blank: '----'},
+                            class: 'form-control'
 
             .panel.panel-default
                 .panel-heading
@@ -52,14 +58,14 @@
                                 = f.label :dwelling_type, class: 'required'
                                 %span.help-block What kind of dwelling is it?
                                 = f.select :dwelling_type, humanize_enums(Accommodation.dwelling_types),
-                                    {include_blank: true},
+                                    {include_blank: '----'},
                                     class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :advertiser_type
                                 %span.help-block Who is selling the accomodation?
                                 = f.select :advertiser_type, humanize_enums(Accommodation.advertiser_types),
-                                    {include_blank: true},
+                                    {include_blank: '----'},
                                     class: 'form-control'
 
 
@@ -82,7 +88,7 @@
                                 = f.label :parking_type
                                 %span.help-block Is parking available?
                                 = f.select :parking_type, humanize_enums(Accommodation.parking_types),
-                                    {include_blank: true},
+                                    {include_blank: '----'},
                                     class: 'form-control'
 
 

@@ -1,0 +1,9 @@
+- unless subject.nil? or subject.errors.empty?
+    .alert.alert-danger.alert-dismissable
+        %button.close{type: 'button', 'data-dismiss' => 'alert', 'aria-hidden' => 'true'}
+            &times;
+        %p
+            %strong= "#{pluralize(subject.errors.keys.count, 'error')} prohibited the form from being submitted:"
+        %ul
+            - subject.errors.keys.each do |k|
+                %li= "#{k.to_s.humanize} #{subject.errors.get(k).join(' and ')}"

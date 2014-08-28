@@ -6,20 +6,21 @@ class Book < ActiveRecord::Base
     accepts_nested_attributes_for :isbns
 
     validates :title, presence: true
-    validates :author, presence: true
 
     def self.from_google_books(gb_data)
         required_elements = {
             'volumeInfo_title' => [String],
-            'volumeInfo_authors' => [String, Array],
             'volumeInfo_industryIdentifiers' => [Array]
         }
 
         if GoogleBooksLoader.has_required_elements?(gb_data, required_elements)
             book_attributes = { isbns_attributes: [] }
             book_attributes[:title] = gb_data['volumeInfo']['title']
-            book_attributes[:author] = ([] << gb_data['volumeInfo']['authors']).flatten.join(', ')
             book_attributes[:isbns_attributes] = gb_data['volumeInfo']['industryIdentifiers'].collect{ |id| { isbn: id['identifier'] } }
+
+            if gb_data['volumeInfo'].has_key?('authors')
+                book_attributes[:author] = ([] << gb_data['volumeInfo']['authors']).flatten.join(', ')
+            end
 
             if gb_data['volumeInfo'].has_key?('imageLinks')
                 book_attributes[:thumbnail_url] = gb_data['volumeInfo']['imageLinks']['thumbnail'] || nil

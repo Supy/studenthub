@@ -1,27 +1,81 @@
-%h1 Listing textbooks
+.container
+    %br
+    .row
+        .col-sm-4.hidden-xs
+            .sidebar
+                .row
+                    .col-sm-11.hidden-xs
+                        %a#regionsBtn.btn.btn-primary.pull-right(style='width: 100%')
+                            All of South Africa
+                            %span.caret
+                    #regionsModal.bs-countries-modal-sm.hidden-xs(data-backdrop='' tabindex='-1' role='dialog' aria-labelledby='regionsModal' aria-hidden='true')
+                        .modal-dialog
+                            .modal-content
+                                .directory-counties
+                                    .col-sm-12
+                                        %ul#myTab.nav.nav-tabs
+                                            %li
+                                                %a.active(data-toggle='tab' href='#wc') Western Cape
+                                        #myTabContent.tab-content
+                                            #wc.tab-pane.counties-pane
+                                                .row.directory-block
+                                                    .col-sm-12
+                                                        = link_to 'Cape Town', '#'
+                                                        %br
+                                                        = link_to 'Stellenbosch', '#'
+                %br
+                .row
+                    .col-sm-11
+                        .panel.panel-default
+                            .panel-heading Filters
+                            .panel-body
+                                = form_tag textbooks_path, method: :get, html: { class: 'form-inline mini', style: 'margin-bottom: 0px' } do
+                                    %fieldset
+                                        .row.filter-row
+                                            .col-sm-12
+                                                %label Condition
+                                            .col-sm-12
+                                                = select_tag :condition, options_for_select(humanize_enums(Textbook.conditions)), multiple: true, style: 'width: 100%'
+                                        .row.filter-row
+                                            .col-sm-12
+                                                %label Price
+                                            .col-sm-6
+                                                .input-group
+                                                    %span.input-group-addon R
+                                                    = number_field_tag :price_min, '', placeholder: 'Min', class: 'form-control price-input'
+                                            .col-sm-6
+                                                .input-group
+                                                    %span.input-group-addon R
+                                                    = number_field_tag :price_max, '', placeholder: 'Max', class: 'form-control price-input'
+                                        .row.filter-row
+                                            .col-sm-2.pull-right(style='margin-top: 10px')
+                                                = submit_tag 'Update results', class: 'btn btn-primary pull-right'
+        .col-sm-8.listings
+            .row.listing-row
+                .pull-right
+                    %span Sort by
+                    %a(href='#')
+                        Date
+                        %i.fa.fa-chevron-up
+                    %a(href='#')
+                        Price
+                        %i.fa.fa-chevron-down
 
-%table
-  %tr
-    %th Book
-    %th Edition
-    %th Price
-    %th Condition
-    %th Comments
-    %th
-    %th
-    %th
-
-  - @textbooks.each do |textbook|
-    %tr
-      %td= textbook.book
-      %td= textbook.edition
-      %td= textbook.price
-      %td= textbook.condition
-      %td= textbook.comments
-      %td= link_to 'Show', textbook
-      %td= link_to 'Edit', edit_textbook_path(textbook)
-      %td= link_to 'Destroy', textbook, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Textbook', new_textbook_path
+            - @textbooks.each do |textbook|
+                .row.listing-row
+                    .col-sm-2
+                        = link_to (image_tag textbook.book.thumbnail_url), textbook, class: 'thumbnail'
+                    .col-sm-10
+                        %h3= link_to "#{textbook.book.title} - <strong>#{number_to_currency(textbook.price, precision: 0, unit: 'R', delimiter: ' ')}</strong>".html_safe, textbook
+                        %p.muted Located in <strong>Suburb, City</strong>
+                        %p.muted Posted #{distance_of_time_in_words_to_now(textbook.created_at)} ago
+                        - unless textbook.comments.empty?
+                            - if textbook.comments.length > 300
+                                %p
+                                    %em= textbook.comments[0..300] + '...'
+                            - else
+                                %p
+                                    %em= textbook.comments
+                        %br
+                        %p.ad-description
+                            <strong>Condition:</strong> #{textbook.condition.humanize} | <strong>Edition:</strong> #{textbook.edition}

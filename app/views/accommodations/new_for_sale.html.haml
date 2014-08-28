@@ -3,6 +3,8 @@
     %h2 Create new Selling Advert:
     %br
 
+    = render partial: 'layouts/form_errors', locals: {subject: @accommodation}
+
     .col-sm-12
         = form_for @accommodation, url: accommodations_path, html: {class: 'form-vertical'} do |f|
             = f.hidden_field :accommodation_type, value: @accommodation.accommodation_type

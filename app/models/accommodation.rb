@@ -36,10 +36,12 @@ class Accommodation < ActiveRecord::Base
     private
 
         def available_from_must_be_sensible
-            if available_from < Date.today
-                errors.add(:available_from, "can't be in the past")
-            elsif available_from > (Date.today + 365)
-                errors.add(:available_from, 'must be within a years time')
+            unless available_from.nil?
+                if available_from < Date.today
+                    errors.add(:available_from, "can't be in the past")
+                elsif available_from > (Date.today + 365)
+                    errors.add(:available_from, 'must be within a years time')
+                end
             end
         end
 end

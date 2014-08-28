@@ -42,37 +42,48 @@ RSpec.describe Book, :type => :model do
                 }
             }
 
-            it 'should populate a valid Book model if all required keys are present' do
-                book = Book.from_google_books(valid_google_books_data)
+            context 'when all required keys are present' do
+                let(:book) { Book.from_google_books(valid_google_books_data) }
 
-                # Inspect all attributes
-                expect(book.title).to eq('Games of Strategy')
-                expect(book.author).to eq('Avinash K. Dixit, Susan Skeath')
-                expect(book.isbns.collect(&:isbn)).to eq(%w(0393974219 9780393974218))
-                expect(book).to be_valid
+                it 'should populate a valid Book model' do
+                    # Inspect all attributes
+                    expect(book.title).to eq('Games of Strategy')
+                    expect(book.author).to eq('Avinash K. Dixit, Susan Skeath')
+                    expect(book.isbns.collect(&:isbn)).to eq(%w(0393974219 9780393974218))
+                    expect(book).to be_valid
+                end
+
+                it 'should automatically save ISBN numbers' do
+                    expect{ book.save }.to change(Isbn, :count).by(2)
+                end
             end
 
-            it 'should return nil Book object' do
-                valid_google_books_data['volumeInfo'].delete('title')
-                book = Book.from_google_books(valid_google_books_data)
+            context 'when missing a required key' do
+                it 'should return nil Book object' do
+                    valid_google_books_data['volumeInfo'].delete('title')
 
-                # Inspect all attributes
-                expect(book).to be_nil
+                    book = Book.from_google_books(valid_google_books_data)
+                    expect(book).to be_nil
+                end
             end
 
-            it 'should populate thumbnail_url attribute if available' do
-                book = Book.from_google_books(valid_google_books_data)
+            context 'when thumbnail element is available' do
+                it 'should populate thumbnail_url attribute' do
+                    book = Book.from_google_books(valid_google_books_data)
 
-                expect(book.thumbnail_url).to eq('http://bks1.books.google.co.za/books?id=u36MQgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api')
-                expect(book).to be_valid
+                    expect(book.thumbnail_url).to eq('http://bks1.books.google.co.za/books?id=u36MQgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api')
+                    expect(book).to be_valid
+                end
             end
 
-            it 'should have nil thumbnail_url attribute if not available' do
-                valid_google_books_data['volumeInfo'].delete('imageLinks')
-                book = Book.from_google_books(valid_google_books_data)
+            context 'when thumbnail element is not available' do
+                it 'should have nil thumbnail_url attribute' do
+                    valid_google_books_data['volumeInfo'].delete('imageLinks')
+                    book = Book.from_google_books(valid_google_books_data)
 
-                expect(book.thumbnail_url).to be_nil
-                expect(book).to be_valid
+                    expect(book.thumbnail_url).to be_nil
+                    expect(book).to be_valid
+                end
             end
         end
     end

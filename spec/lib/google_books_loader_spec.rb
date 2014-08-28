@@ -7,7 +7,6 @@ RSpec.describe GoogleBooksLoader do
         context 'with valid ISBN' do
             it 'returns the corresponding book' do
                 returned_book = GoogleBooksLoader.get_for_isbn('0393974219')
-                expect(returned_book.class).to eq(Hash)
                 expect(returned_book.has_key?('volumeInfo')).to be true
             end
         end

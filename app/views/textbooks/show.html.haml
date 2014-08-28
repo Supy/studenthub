@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Book:
+  = @textbook.book
+%p
+  %b Edition:
+  = @textbook.edition
+%p
+  %b Price:
+  = @textbook.price
+%p
+  %b Condition:
+  = @textbook.condition
+%p
+  %b Comments:
+  = @textbook.comments
+
+= link_to 'Edit', edit_textbook_path(@textbook)
+\|
+= link_to 'Back', textbooks_path

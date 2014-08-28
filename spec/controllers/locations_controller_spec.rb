@@ -15,7 +15,7 @@ describe LocationsController, type: :controller do
         let!(:grandchild_4) { FactoryGirl.create(:location, parent: child_2) }
 
         context 'with no root id given' do
-            it 'has http success' do
+            it 'returns root parents' do
                 get :drilldown
                 expect(response).to be_success
                 expect(response).to render_template 'drilldown'
@@ -24,11 +24,29 @@ describe LocationsController, type: :controller do
         end
 
         context 'with valid root id' do
-            it 'has http success' do
+            it 'returns children' do
                 get :drilldown, id: parent_1.id
                 expect(response).to be_success
                 expect(response).to render_template 'drilldown'
                 expect(assigns(:locations)).to match_array([child_1, child_2])
+            end
+        end
+
+        context 'with leaf root id' do
+            it 'returns no children' do
+                get :drilldown, id: grandchild_4.id
+                expect(response).to be_success
+                expect(response).to render_template 'drilldown'
+                expect(assigns(:locations)).to match_array([])
+            end
+        end
+
+        context 'with unknown root id' do
+            it 'returns root parents' do
+                get :drilldown, id: grandchild_4.id + 100
+                expect(response).to be_success
+                expect(response).to render_template 'drilldown'
+                expect(assigns(:locations)).to match_array([parent_1, parent_2, parent_3])
             end
         end
     end

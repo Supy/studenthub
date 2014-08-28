@@ -1,0 +1,25 @@
+%hr.topbar
+.container
+    %h2 Create new textbook ad
+    %br
+
+    .col-sm-12
+        .panel.panel-default
+            .panel-heading
+                Textbook Information
+            .panel-body
+                .row
+                    .col-sm-12
+                        %p
+                            Please enter the ISBN of the textbook (usually fount on one of the first few pages of the book). We'll use it to fetch information
+                            about the book automatically to make your life easier.
+                        %br
+                        = form_tag book_load_path, method: :post, class: 'form-vertical' do
+                            .form-group
+                                .row
+                                    .col-sm-2
+                                        %label(style='margin-top: 10px') ISBN
+                                    .col-sm-4
+                                        = text_field_tag :isbn, '', placeholder: 'Enter book ISBN', class: 'form-control'
+                                    .col-sm-2
+                                        = submit_tag 'Go &raquo;'.html_safe, class: 'btn btn-primary'

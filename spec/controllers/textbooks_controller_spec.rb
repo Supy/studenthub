@@ -25,6 +25,11 @@ RSpec.describe TextbooksController, :type => :controller do
             expect(assigns(:textbook)).to eq(textbook)
         end
 
+        it 'assigns the textbook\'s book object to @book' do
+            get :show, { id: textbook.to_param }, valid_session
+            expect(assigns(:book)).to eq(textbook.book)
+        end
+
         it 'renders the "show" template' do
             get :show, { id: textbook.to_param }, valid_session
             expect(response).to render_template 'show'
@@ -60,6 +65,11 @@ RSpec.describe TextbooksController, :type => :controller do
         it 'assigns the requested textbook as @textbook' do
             get :edit, { id: textbook.to_param }, valid_session
             expect(assigns(:textbook)).to eq(textbook)
+        end
+
+        it 'assigns the textbook\'s book object to @book' do
+            get :show, { id: textbook.to_param }, valid_session
+            expect(assigns(:book)).to eq(textbook.book)
         end
 
         it 'renders the "edit" template' do
@@ -154,6 +164,13 @@ RSpec.describe TextbooksController, :type => :controller do
             it 'redirects to the textbook' do
                 put :update, { id: textbook.to_param, textbook: valid_attributes }, valid_session
                 expect(response).to redirect_to(textbook)
+            end
+
+            it 'does not allow book ID to be changed' do
+                valid_attributes[:book_id] = 100
+
+                put :update, { id: textbook.to_param, textbook: valid_attributes }, valid_session
+                expect(assigns(:textbook).book_id).to eq(textbook.book_id)
             end
         end
 

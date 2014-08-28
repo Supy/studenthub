@@ -2,7 +2,7 @@ class TextbooksController < ApplicationController
     before_action :set_textbook, only: [:show, :edit, :update, :destroy]
 
     def index
-        @textbooks = Textbook.all
+        @textbooks = Textbook.includes(:book)
     end
 
     def show

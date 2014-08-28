@@ -22,41 +22,83 @@
 
             .panel.panel-default
                 .panel-heading
+                    Location
+                .panel-body
+                    .form-group
+                        %p
+                            Some method of picking a location from a location tree
+
+            .panel.panel-default
+                .panel-heading
+                    Price
+                .panel-body
+                    .form-group
+                        = f.text_field :price,
+                            data: {autonumeric: {aSign: 'R ', mDec: 2}},
+                            class: 'form-control',
+                            placeholder: 'R 00.00'
+
+            .panel.panel-default
+                .panel-heading
                     Information
                 .panel-body
                     .form-group
                         .row
                             .col-sm-6.pad-top-5.pad-bottom-5
+                                = f.label :advertiser_type
+                                %span.help-block Who is selling the accomodation?
+                                = f.select :advertiser_type, humanize_enums(Accommodation.advertiser_types),
+                                    {include_blank: true},
+                                    class: 'form-control'
+
+                            .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :dwelling_type
-                                = f.select :dwelling_type, humanize_enums(Accommodation.dwelling_types), {include_blank: true}, class: 'form-control'
+                                %span.help-block What kind of dwelling is it?
+                                = f.select :dwelling_type, humanize_enums(Accommodation.dwelling_types),
+                                    {include_blank: true},
+                                    class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :size_sqm
-                                = f.number_field :size_sqm, class: 'form-control'
+                                %span.help-block How large is the accomodation? (in square meters)
+                                = f.text_field :size_sqm, data: {autonumeric: {mDec: 0}}, class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :bedrooms
-                                = f.number_field :bedrooms, class: 'form-control'
+                                %span.help-block How many bedrooms does the dwelling have?
+                                = f.text_field :bedrooms, data: {autonumeric: {mDec: 0}}, class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :bathrooms
-                                = f.number_field :bathrooms, class: 'form-control'
+                                %span.help-block How many bathrooms does the dwelling have?
+                                = f.text_field :bathrooms, data: {autonumeric: {mDec: 0}}, class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :parking_type
-                                = f.select :parking_type, humanize_enums(Accommodation.parking_types), {include_blank: true}, class: 'form-control'
+                                %span.help-block Is parking available?
+                                = f.select :parking_type, humanize_enums(Accommodation.parking_types),
+                                    {include_blank: true},
+                                    class: 'form-control'
 
 
             .panel.panel-default
                 .panel-heading
                     Restrictions
                 .panel-body
+                    %span.help-block
+                        Some properties, such as apartments, have restrictions. Which of these apply to your property?
                     .row
-                        .col-sm-6.pad-top-5.pad-bottom-5
-                            %label.checkbox
-                                = f.check_box :smoking_allowed
-                                = :smoking_allowed.to_s.humanize
                         .col-sm-6.pad-top-5.pad-bottom-5
                             %label.checkbox
                                 = f.check_box :pets_allowed
                                 = :pets_allowed.to_s.humanize
+
+                        .col-sm-6.pad-top-5.pad-bottom-5
+                            %label.checkbox
+                                = f.check_box :smoking_allowed
+                                = :smoking_allowed.to_s.humanize
+            .pull-right
+                = f.submit 'Save', class: 'btn btn-md btn-info'
+                = link_to 'Back', new_accommodation_path, class: 'btn btn-md btn-default'
+
+            .clearfix

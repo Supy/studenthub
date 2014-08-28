@@ -42,3 +42,6 @@ gem 'figaro'
 
 # tree library
 gem 'closure_tree', '~> 5.0.0'
+
+# javascript lib and wrapper for numeric fields
+gem 'autonumeric-rails'

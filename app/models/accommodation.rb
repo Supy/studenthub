@@ -21,7 +21,7 @@ class Accommodation < ActiveRecord::Base
     validates :bathrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
     # validates :parking_type
     validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
-    validates :available_from, presence: true
+    validates :available_from, presence: true, if: :for_rent? or :for_sharing?
     #validates :pets_allowed
     #validates :smoking_allowed
     #validates :preffered_gender

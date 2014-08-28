@@ -16,7 +16,7 @@ class Accommodation < ActiveRecord::Base
     validates :description, presence: true, length: { in: 50..5000 }
     validates :accommodation_type, presence: true
     validates :dwelling_type, presence: true
-    validates :size_sqm, numericality: { greater_than: 0 }
+    validates :size_sqm, numericality: { greater_than: 0 }, allow_nil: true
     validates :bedrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
     validates :bathrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
     # validates :parking_type

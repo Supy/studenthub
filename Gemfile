@@ -27,6 +27,7 @@ group :development, :test do
     gem 'simplecov'
     gem 'factory_girl_rails', '~> 4.4.1'
     gem 'database_cleaner'
+    gem 'faker'
 end
 
 # javascript runtime

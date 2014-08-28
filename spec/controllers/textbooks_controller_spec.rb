@@ -32,14 +32,25 @@ RSpec.describe TextbooksController, :type => :controller do
     end
 
     describe 'GET new' do
-        it 'assigns a new textbook as @textbook' do
-            get :new, {}, valid_session
-            expect(assigns(:textbook)).to be_a_new(Textbook)
+        context 'when book ID is not supplied' do
+            it 'renders the "new_without_book_id" template' do
+                get :new, {}, valid_session
+                expect(response).to render_template 'new_without_book_id'
+            end
         end
 
-        it 'renders the "new" template' do
-            get :new, {}, valid_session
-            expect(response).to render_template 'new'
+        context 'when book ID is supplied' do
+            let(:book){ FactoryGirl.create(:book) }
+
+            it 'assigns a new textbook as @textbook' do
+                get :new, { book_id: book.id }, valid_session
+                expect(assigns(:textbook)).to be_a_new(Textbook)
+            end
+
+            it 'renders the "new_with_book_id" template' do
+                get :new, { book_id: book.id }, valid_session
+                expect(response).to render_template 'new_with_book_id'
+            end
         end
     end
 
@@ -58,8 +69,31 @@ RSpec.describe TextbooksController, :type => :controller do
     end
 
     describe 'POST create' do
-        describe 'with valid params' do
-            let(:valid_attributes) { FactoryGirl.attributes_for(:textbook) }
+        context 'with invalid book ID' do
+            let(:textbook_attributes){
+                attributes = FactoryGirl.build(:textbook, book_id: 200).attributes
+                attributes[:condition] = :ok
+                attributes
+            }
+
+            it 'does not create a new Textbook' do
+                expect {
+                    post :create, { textbook: textbook_attributes }, valid_session
+                }.to_not change(Textbook, :count)
+            end
+
+            it 'redirects back to #new' do
+                post :create, { textbook: textbook_attributes }, valid_session
+                expect(response).to redirect_to(new_textbook_path)
+            end
+        end
+
+        context 'with valid params' do
+            let(:valid_attributes) {
+                attributes = FactoryGirl.build(:textbook).attributes
+                attributes[:condition] = :ok
+                attributes
+            }
 
             it 'creates a new Textbook' do
                 expect {
@@ -79,8 +113,12 @@ RSpec.describe TextbooksController, :type => :controller do
             end
         end
 
-        describe 'with invalid params' do
-            let(:invalid_attributes) { FactoryGirl.attributes_for(:textbook, price: nil) }
+        context 'with invalid params' do
+            let(:invalid_attributes) {
+                attributes = FactoryGirl.build(:textbook, price: nil).attributes
+                attributes[:condition] = :ok
+                attributes
+            }
 
             it 'assigns a newly created but unsaved textbook as @textbook' do
                 post :create, { textbook: invalid_attributes }, valid_session
@@ -90,7 +128,7 @@ RSpec.describe TextbooksController, :type => :controller do
 
             it 're-renders the "new" template' do
                 post :create, { textbook: invalid_attributes }, valid_session
-                expect(response).to render_template 'new'
+                expect(response).to render_template 'new_with_book_id'
             end
         end
     end
@@ -98,7 +136,7 @@ RSpec.describe TextbooksController, :type => :controller do
     describe 'PUT update' do
         let(:textbook){ FactoryGirl.create(:textbook) }
 
-        describe 'with valid params' do
+        context 'with valid params' do
             let(:new_attributes) { { price: 500 } }
             let(:valid_attributes) { FactoryGirl.attributes_for(:textbook) }
 
@@ -119,7 +157,7 @@ RSpec.describe TextbooksController, :type => :controller do
             end
         end
 
-        describe 'with invalid params' do
+        context 'with invalid params' do
             let(:invalid_attributes) { FactoryGirl.attributes_for(:textbook, price: nil) }
 
             it 'assigns the textbook as @textbook' do

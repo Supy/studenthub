@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe AccommodationsController, :type => :controller do
+describe AccommodationsController, type: :controller do
 
     describe 'GET index' do
         let!(:list) do
@@ -30,7 +30,7 @@ describe AccommodationsController, :type => :controller do
 
         it 'redirects to show upon successful create' do
             expect do
-                post :create, accommodations: good_attrs
+                post :create, accommodation: good_attrs
             end.to change(Accommodation, :count).by(1)
             expect(response).to be_redirect
             expect(response).to redirect_to accommodation_path(Accommodation.last)
@@ -40,7 +40,7 @@ describe AccommodationsController, :type => :controller do
             bad_attrs = good_attrs
             bad_attrs['price'] = -100
             expect do
-                post :create, accommodations: bad_attrs
+                post :create, accommodation: bad_attrs
             end.not_to change(Accommodation, :count)
             expect(response).to be_success
             expect(response).to render_template 'new_for_sharing'
@@ -50,7 +50,7 @@ describe AccommodationsController, :type => :controller do
             bad_attrs = good_attrs
             bad_attrs['accommodation_type'] = 'unknown'
             expect do
-                post :create, accommodations: bad_attrs
+                post :create, accommodation: bad_attrs
             end.not_to change(Accommodation, :count)
             expect(response).to be_redirect
             expect(response).to redirect_to new_accommodation_path
@@ -100,13 +100,13 @@ describe AccommodationsController, :type => :controller do
         let(:test_accommodation) { FactoryGirl.create :accommodation, :for_sale }
 
         it 'redirects to show upon successful patch' do
-            patch :update, id: test_accommodation.id, accommodations: { 'price' => 45212.12 }
+            patch :update, id: test_accommodation.id, accommodation: { 'price' => 45212.12 }
             expect(response).to be_redirect
             expect(response).to redirect_to test_accommodation
         end
 
         it 'redirects to edit upon bad patch' do
-            patch :update, id: test_accommodation.id, accommodations: { 'price' => -1 }
+            patch :update, id: test_accommodation.id, accommodation: { 'price' => -1 }
             expect(response).to be_success
             expect(response).to render_template 'edit'
         end
@@ -131,7 +131,7 @@ describe AccommodationsController, :type => :controller do
         end
 
         it 'redirects to show upon successful patch' do
-            put :update, id: test_accommodation.id, accommodations: good_attrs
+            put :update, id: test_accommodation.id, accommodation: good_attrs
             expect(response).to be_redirect
             expect(response).to redirect_to test_accommodation
         end

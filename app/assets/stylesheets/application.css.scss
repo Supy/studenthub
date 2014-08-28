@@ -7,7 +7,7 @@
 // the height of the footer bar
 $footer_height: 70px;
 // padding above the footer bar
-$footer_padding: 20px;
+$footer_padding: 50px;
 
 html {
     position: relative;
@@ -31,4 +31,12 @@ body {
 
 .pad-bottom-5 {
     padding-bottom: 5px;
+}
+
+label.required {
+    color: #a00;
+}
+
+label.required::after {
+    content: '*'
 }

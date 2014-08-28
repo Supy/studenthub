@@ -12,14 +12,22 @@
                     .form-group
                         .row
                             .col-sm-12
-                                = f.label :title
+                                = f.label :title, class: 'required'
                                 = f.text_field :title, class: 'form-control'
 
                             .col-sm-12
                                 %br
-                                = f.label :description
+                                = f.label :description, class: 'required'
                                 = f.text_area :description, class: 'form-control', rows: 6
-
+                    .form-group
+                        .row
+                            .col-sm-2
+                                = f.label :price, class: 'required', style: 'margin-top: 10px'
+                            .col-sm-10
+                                = f.text_field :price,
+                                    data: {autonumeric: {aSign: 'R ', mDec: 2}},
+                                    class: 'form-control',
+                                    placeholder: 'R 00.00'
             .panel.panel-default
                 .panel-heading
                     Location
@@ -30,20 +38,21 @@
 
             .panel.panel-default
                 .panel-heading
-                    Price
-                .panel-body
-                    .form-group
-                        = f.text_field :price,
-                            data: {autonumeric: {aSign: 'R ', mDec: 2}},
-                            class: 'form-control',
-                            placeholder: 'R 00.00'
-
-            .panel.panel-default
-                .panel-heading
                     Information
                 .panel-body
+                    %span.help-block
+                        These fields are important for your advert. They allow people to search for
+                        and filter for the adverts they'd like based on what kind of accommodation you are selling.
+
                     .form-group
                         .row
+                            .col-sm-6.pad-top-5.pad-bottom-5
+                                = f.label :dwelling_type, class: 'required'
+                                %span.help-block What kind of dwelling is it?
+                                = f.select :dwelling_type, humanize_enums(Accommodation.dwelling_types),
+                                    {include_blank: true},
+                                    class: 'form-control'
+
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :advertiser_type
                                 %span.help-block Who is selling the accomodation?
@@ -51,12 +60,6 @@
                                     {include_blank: true},
                                     class: 'form-control'
 
-                            .col-sm-6.pad-top-5.pad-bottom-5
-                                = f.label :dwelling_type
-                                %span.help-block What kind of dwelling is it?
-                                = f.select :dwelling_type, humanize_enums(Accommodation.dwelling_types),
-                                    {include_blank: true},
-                                    class: 'form-control'
 
                             .col-sm-6.pad-top-5.pad-bottom-5
                                 = f.label :size_sqm
@@ -97,6 +100,11 @@
                             %label.checkbox
                                 = f.check_box :smoking_allowed
                                 = :smoking_allowed.to_s.humanize
+
+            %small{style: 'color: #a00'}
+                * indicates a required field.
+
+
             .pull-right
                 = f.submit 'Save', class: 'btn btn-md btn-info'
                 = link_to 'Back', new_accommodation_path, class: 'btn btn-md btn-default'

@@ -45,7 +45,7 @@
                             - @location_levels.each_with_index do |level, i|
                                 = select_tag "location_level_#{i+1}", options_from_collection_for_select(level, :id, :name),
                                     prompt: '----',
-                                    class: 'form-control location_level_picker', loc_level: 1
+                                    class: 'form-control location_level_picker', loc_level: i+1
                         #location_tree_loader.text-center{style: 'display: none'}
                             %i.fa.fa-spinner.fa-3x.fa-spin
 

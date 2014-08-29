@@ -43,9 +43,10 @@
                     #location_tree_container.form-group
                         #location_tree
                             - @location_levels.each_with_index do |level, i|
-                                = select_tag "location_level_#{i+1}", options_from_collection_for_select(level, :id, :name),
-                                    prompt: '----',
-                                    class: 'form-control location_level_picker', loc_level: i+1
+                                .location_level_picker{style: "padding: 2px; padding-left: #{i*20}px"}
+                                    = select_tag "location_level_#{i+1}", options_from_collection_for_select(level, :id, :name),
+                                        prompt: '----',
+                                        class: 'form-control input-sm', loc_level: i+1
                         #location_tree_loader.text-center{style: 'display: none'}
                             %i.fa.fa-spinner.fa-3x.fa-spin
 
@@ -148,7 +149,7 @@
                         level = $('.location_level_picker').length + 1
                         new_id = 'location_level_' + level
                         e = $ '<select></select>'
-                            .addClass 'form-control location_level_picker'
+                            .addClass 'form-control input-sm'
                             .attr 'id', new_id
                             .attr 'name', new_id
                             .attr 'loc_level', level
@@ -166,7 +167,14 @@
                                 .attr 'value', c.id
                                 .html c.name
 
-                        ee.after(e)
+                        ediv = $ '<div></div>'
+                            .addClass 'location_level_picker'
+                            .css 'padding', 2
+                            .css 'padding-left', (level*20-20)
+
+                        ediv.append(e)
+
+                        ee.parent().after(ediv)
 
                 # hide the spinner
                 loader.hide()

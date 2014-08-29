@@ -131,36 +131,45 @@
             # remove any selectors after the clicked one
             ee.nextAll().remove()
 
-            # show the spinner
-            loader.show()
+            # if ---- is selected, don't add another level
+            if not not event.target.value
 
-            # set location_id
-            $('#accommodation_location_id').val(event.target.value)
+                # show the spinner
+                loader.show()
 
-            # load next level
-            url = '/locations/drilldown/' + event.target.value
-            $.getJSON url, (data) =>
-                if data.children.length > 0
-                    new_id = 'location_level_' + ($('.location_level_picker').length + 1)
-                    e = $ '<select></select>'
-                        .addClass('form-control location_level_picker')
-                        .attr('id', new_id)
-                        .attr('name', new_id)
-                        .change location_level_f
+                # set location_id
+                $('#accommodation_location_id').val event.target.value
 
-                    # first add blank version
-                    e.append $('<option></option>').attr('value', '').html('----')
+                # load next level
+                url = '/locations/drilldown/' + event.target.value
+                $.getJSON url, (data) =>
+                    if data.children.length > 0
+                        new_id = 'location_level_' + ($('.location_level_picker').length + 1)
+                        e = $ '<select></select>'
+                            .addClass 'form-control location_level_picker'
+                            .attr 'id', new_id
+                            .attr 'name', new_id
+                            .change location_level_f
 
-                    # then append options to match drilldown
-                    e.append data.children.map (c) ->
-                        $ '<option></option>'
-                            .attr 'value', c.id
-                            .html c.name
+                        # first add blank version
+                        e.append ($('<option></option>')
+                            .attr 'value', ''
+                            .html '----'
+                        )
 
-                    ee.after(e)
+                        # then append options to match drilldown
+                        e.append data.children.map (c) ->
+                            $ '<option></option>'
+                                .attr 'value', c.id
+                                .html c.name
 
-            # hide the spinner
-            loader.hide()
+                        ee.after(e)
+
+                # hide the spinner
+                loader.hide()
+
+            else
+                # TODO allow click of ---- to revert selection
 
         $('.location_level_picker').change location_level_f
 

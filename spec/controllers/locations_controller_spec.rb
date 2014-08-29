@@ -18,8 +18,8 @@ describe LocationsController, type: :controller do
             it 'returns root parents' do
                 get :drilldown
                 expect(response).to be_success
-                expect(response).to render_template 'drilldown'
-                expect(assigns(:locations)).to match_array([parent_1, parent_2, parent_3])
+                expect(assigns(:result)[:root]).to be_nil
+                expect(assigns(:result)[:children]).to match_array([parent_1, parent_2, parent_3].map(&:simple))
             end
         end
 
@@ -27,8 +27,8 @@ describe LocationsController, type: :controller do
             it 'returns children' do
                 get :drilldown, id: parent_1.id
                 expect(response).to be_success
-                expect(response).to render_template 'drilldown'
-                expect(assigns(:locations)).to match_array([child_1, child_2])
+                expect(assigns(:result)[:root]).to eq(parent_1.simple)
+                expect(assigns(:result)[:children]).to match_array([child_1, child_2].map(&:simple))
             end
         end
 
@@ -36,8 +36,8 @@ describe LocationsController, type: :controller do
             it 'returns no children' do
                 get :drilldown, id: grandchild_4.id
                 expect(response).to be_success
-                expect(response).to render_template 'drilldown'
-                expect(assigns(:locations)).to match_array([])
+                expect(assigns(:result)[:root]).to eq(grandchild_4.simple)
+                expect(assigns(:result)[:children]).to match_array([])
             end
         end
 
@@ -45,8 +45,8 @@ describe LocationsController, type: :controller do
             it 'returns root parents' do
                 get :drilldown, id: grandchild_4.id + 100
                 expect(response).to be_success
-                expect(response).to render_template 'drilldown'
-                expect(assigns(:locations)).to match_array([parent_1, parent_2, parent_3])
+                expect(assigns(:result)[:root]).to be_nil
+                expect(assigns(:result)[:children]).to match_array([parent_1, parent_2, parent_3].map(&:simple))
             end
         end
     end

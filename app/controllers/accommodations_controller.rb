@@ -6,9 +6,19 @@ class AccommodationsController < ApplicationController
 
     def new
         @accommodation = Accommodation.new
-
         if params[:type] and Accommodation.accommodation_types.include? params[:type]
             @accommodation.accommodation_type = params[:type]
+
+            @location_levels = []
+            unless @accommodation.location_id.nil?
+                p = @accommodation.location.parent
+                while not p.nil?
+                    @location_levels << p.children
+                    p = p.parent
+                end
+            end
+            @location_levels << Location.roots
+
             render action: "new_#{params[:type]}"
         else
             render action: 'new_without_type'

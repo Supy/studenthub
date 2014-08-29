@@ -45,7 +45,7 @@
                             - @location_levels.each_with_index do |level, i|
                                 = select_tag "location_level_#{i+1}", options_from_collection_for_select(level, :id, :name),
                                     prompt: '----',
-                                    class: 'form-control location_level_picker'
+                                    class: 'form-control location_level_picker', loc_level: 1
                         #location_tree_loader.text-center{style: 'display: none'}
                             %i.fa.fa-spinner.fa-3x.fa-spin
 
@@ -124,6 +124,7 @@
 - content_for :javascripts do
     :coffeescript
         loader = $ '#location_tree_loader'
+        form_target = $ '#accommodation_location_id'
 
         location_level_f = (event) =>
             # the clicked element
@@ -138,17 +139,19 @@
                 loader.show()
 
                 # set location_id
-                $('#accommodation_location_id').val event.target.value
+                form_target.val event.target.value
 
                 # load next level
                 url = '/locations/drilldown/' + event.target.value
                 $.getJSON url, (data) =>
                     if data.children.length > 0
-                        new_id = 'location_level_' + ($('.location_level_picker').length + 1)
+                        level = $('.location_level_picker').length + 1
+                        new_id = 'location_level_' + level
                         e = $ '<select></select>'
                             .addClass 'form-control location_level_picker'
                             .attr 'id', new_id
                             .attr 'name', new_id
+                            .attr 'loc_level', level
                             .change location_level_f
 
                         # first add blank version
@@ -169,7 +172,11 @@
                 loader.hide()
 
             else
-                # TODO allow click of ---- to revert selection
+                level = Number(ee.attr 'loc_level') - 1
+                if level == 0
+                    form_target.val ''
+                else
+                    form_target.val $('#location_level_' + level).val()
 
         $('.location_level_picker').change location_level_f
 

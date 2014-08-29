@@ -118,3 +118,9 @@
                 = link_to 'Back', new_accommodation_path, class: 'btn btn-md btn-default'
 
             .clearfix
+
+- content_for :javascripts do
+    :coffeescript
+        $ ->
+            console.log 'hello'
+

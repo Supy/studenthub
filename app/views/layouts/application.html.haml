@@ -6,7 +6,7 @@
         %title Student Hub
         = stylesheet_link_tag :application, media: 'all'
         = content_for :stylesheets
-        %link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' rel='stylesheet')
+        %link{href: '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css', rel:'stylesheet'}
 
         = csrf_meta_tags
     %body
@@ -100,18 +100,24 @@
                         %p.footer-links
                             = link_to 'Home', root_path
 
+        / include global application javascripts
         = javascript_include_tag :application
-        :javascript
-            (function(d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) return;
-                            js = d.createElement(s); js.id = id;
-                            js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));
-        = content_for :javascripts
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+
+        / include facebook stuffs
+        :coffeescript
+            return if document.getElementById('facebook-jssdk')
+
+            js = document.createElement(s)
+            js.id = 'facebook-jssdk'
+            js.src = '//connect.facebook.net/en_GB/all.js#xfbml=1'
+
+            fjs = document.getElementsByTagName('script')[0]
+            fjs.parentNode.insertBefore(js, fjs)
+
+        / include page-specific js
+        = yield :javascripts
+
+        / HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+        /[if lt IE 9]
+            %script{src: 'https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js'}
+            %script{src: 'https://oss.maxcdn.com/respond/1.4.2/respond.min.js'}

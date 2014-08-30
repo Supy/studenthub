@@ -1,0 +1,31 @@
+.row
+    .col-sm-6
+        %table.table.table-bordered-top
+            %tbody
+                %tr
+                    %th= :dwelling_type.to_s.humanize
+                    %td= @accommodation.dwelling_type.to_s.humanize
+                %tr
+                    %th= :advertiser_type.to_s.humanize
+                    %td= @accommodation.advertiser_type.to_s.humanize
+                %tr
+                    %th= :size_sqm.to_s.humanize
+                    %td= @accommodation.size_sqm.to_s.humanize
+                %tr
+                    %th= :smoking_allowed.to_s.humanize
+                    %td= humanize_boolean @accommodation.smoking_allowed
+    .col-sm-6
+        %table.table.table-bordered-top
+            %tbody
+                %tr
+                    %th= :bedrooms.to_s.humanize
+                    %td= @accommodation.bedrooms.to_s.humanize
+                %tr
+                    %th= :bathrooms.to_s.humanize
+                    %td= @accommodation.bathrooms.to_s.humanize
+                %tr
+                    %th= :parking_type.to_s.humanize
+                    %td= @accommodation.parking_type.to_s.humanize
+                %tr
+                    %th= :pets_allowed.to_s.humanize
+                    %td= humanize_boolean @accommodation.pets_allowed

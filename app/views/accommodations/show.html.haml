@@ -1,10 +1,23 @@
 .container
     .row
-        .col-sm-12
-            %h2= @accommodation.title
-            %br
+        .col-sm-7
+            %h1= @accommodation.title
+            %p= "Location: #{@accommodation.location.name}"
+        .col-sm-5
+            %h1.pull-right= format_price @accommodation.price
+            .clearfix
+            %p.pull-right= "Posted: #{time_ago_in_words(@accommodation.created_at)} ago"
+    %hr
     .row
-        .col-sm-12
+        .col-sm-7
+            %h3 Ad details
             - if @accommodation.for_sale?
-                = render partial: 'display_for_sale'
+                = render partial: 'details_for_sale'
+
+            %p= @accommodation.description
+
+        .col-sm-5
+            %h3 Images
+            .text-center
+                Here be images ( collapse this column if no images are attached )
 

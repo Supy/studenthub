@@ -29,7 +29,6 @@ class @LocationPickerTree
         # then wrap in div
         ediv = $ '<div></div>'
             .addClass 'location_level_wrapper'
-            .css 'padding', 2
             .css 'padding-left', (loc_level*20-20)
 
         ediv.append(e)

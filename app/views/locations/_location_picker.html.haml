@@ -1,9 +1,10 @@
 - loc_levels = build_location_levels_for_location(starting_location)
 #location_tree
     - loc_levels.each_with_index do |level, i|
-        .location_level_wrapper{style: "padding: 2px; padding-left: #{i*20}px"}
+        .location_level_wrapper{style: "padding-left: #{i*20}px"}
             = select_tag "location_level_#{i+1}", options_from_collection_for_select(level, :id, :name),
                 prompt: '----',
-                class: 'form-control input-sm location_level_picker', loc_level: i+1
-#location_tree_loader.text-center{style: 'display: none'}
+                class: 'form-control input-sm location_level_picker',
+                loc_level: i+1
+#location_tree_loader.text-center
     %i.fa.fa-spinner.fa-3x.fa-spin

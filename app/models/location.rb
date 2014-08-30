@@ -12,8 +12,8 @@ class Location < ActiveRecord::Base
     validates :name, uniqueness: {scope: :parent_id}
     validate :location_is_valid_or_blank
 
-    def simple
-        {id: id, name: name}
+    def simple_json
+        {'id' => id, 'name' => name}
     end
 
     private

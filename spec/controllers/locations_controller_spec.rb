@@ -16,10 +16,11 @@ describe LocationsController, type: :controller do
 
         context 'with no root id given' do
             it 'returns root parents' do
-                get :drilldown
+                get :drilldown, format: :json
                 expect(response).to be_success
-                expect(assigns(:result)[:root]).to be_nil
-                expect(assigns(:result)[:children]).to match_array([parent_1, parent_2, parent_3].map(&:simple))
+                json = JSON.parse(response.body)
+                expect(json['root']).to be_nil
+                expect(json['children']).to match_array([parent_1, parent_2, parent_3].map(&:simple_json))
             end
         end
 
@@ -27,8 +28,9 @@ describe LocationsController, type: :controller do
             it 'returns children' do
                 get :drilldown, id: parent_1.id
                 expect(response).to be_success
-                expect(assigns(:result)[:root]).to eq(parent_1.simple)
-                expect(assigns(:result)[:children]).to match_array([child_1, child_2].map(&:simple))
+                json = JSON.parse(response.body)
+                expect(json['root']).to eq(parent_1.simple_json)
+                expect(json['children']).to match_array([child_1, child_2].map(&:simple_json))
             end
         end
 
@@ -36,8 +38,9 @@ describe LocationsController, type: :controller do
             it 'returns no children' do
                 get :drilldown, id: grandchild_4.id
                 expect(response).to be_success
-                expect(assigns(:result)[:root]).to eq(grandchild_4.simple)
-                expect(assigns(:result)[:children]).to match_array([])
+                json = JSON.parse(response.body)
+                expect(json['root']).to eq(grandchild_4.simple_json)
+                expect(json['children']).to match_array([])
             end
         end
 
@@ -45,8 +48,9 @@ describe LocationsController, type: :controller do
             it 'returns root parents' do
                 get :drilldown, id: grandchild_4.id + 100
                 expect(response).to be_success
-                expect(assigns(:result)[:root]).to be_nil
-                expect(assigns(:result)[:children]).to match_array([parent_1, parent_2, parent_3].map(&:simple))
+                json = JSON.parse(response.body)
+                expect(json['root']).to be_nil
+                expect(json['children']).to match_array([parent_1, parent_2, parent_3].map(&:simple_json))
             end
         end
     end

@@ -5,8 +5,8 @@ class LocationsController < ApplicationController
         children = root.nil? ? Location.roots : root.children
 
         render json: {
-            root: root.nil? ? nil : root.simple,
-            children: children.map { |c| c.simple  }
+            root: root.nil? ? nil : root.simple_json,
+            children: children.map { |c| c.simple_json  }
         }
     end
 

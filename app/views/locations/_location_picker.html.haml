@@ -2,8 +2,7 @@
 #location_tree
     - loc_levels.each_with_index do |level, i|
         .location_level_wrapper{style: "padding-left: #{i*20}px"}
-            = select_tag "location_level_#{i+1}", options_from_collection_for_select(level[:items], :id, :name),
-                selected: level[:selected],
+            = select_tag "location_level_#{i+1}", options_from_collection_for_select(level[:items], :id, :name, level[:selected]),
                 prompt: '----',
                 class: 'form-control input-sm location_level_picker',
                 loc_level: i+1

@@ -1,4 +1,4 @@
-class LocationPickerTree
+class @LocationPickerTree
     constructor: (form_id) ->
         @location_field_id = if (form_id[0] == '#') then form_id else ('#' + form_id)
         @loader = $ '#location_tree_loader'

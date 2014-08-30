@@ -1,0 +1,10 @@
+.container
+    .row
+        .col-sm-12
+            %h2= @accommodation.title
+            %br
+    .row
+        .col-sm-12
+            - if @accommodation.for_sale?
+                = render partial: 'display_for_sale'
+

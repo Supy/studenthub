@@ -1,10 +1,13 @@
 .container
-
-    %h2 Create new Selling Advert:
-    %br
-
-    = render partial: 'layouts/form_errors', locals: {subject: @accommodation}
-
-    - if @accommodation.for_sale?
-        = render partial: 'form_for_sale'
+    .row
+        .col-sm-12
+            %h2 Create new Selling Advert:
+            %br
+    .row
+        .col-sm-12
+            = render partial: 'layouts/form_errors', locals: {subject: @accommodation}
+    .row
+        .col-sm-12
+            - if @accommodation.for_sale?
+                = render partial: 'form_for_sale'
 

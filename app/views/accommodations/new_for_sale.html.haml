@@ -43,10 +43,10 @@
                     #location_tree_container.form-group
                         #location_tree
                             - @location_levels.each_with_index do |level, i|
-                                .location_level_picker{style: "padding: 2px; padding-left: #{i*20}px"}
+                                .location_level_wrapper{style: "padding: 2px; padding-left: #{i*20}px"}
                                     = select_tag "location_level_#{i+1}", options_from_collection_for_select(level, :id, :name),
                                         prompt: '----',
-                                        class: 'form-control input-sm', loc_level: i+1
+                                        class: 'form-control input-sm location_level_picker', loc_level: i+1
                         #location_tree_loader.text-center{style: 'display: none'}
                             %i.fa.fa-spinner.fa-3x.fa-spin
 
@@ -124,68 +124,5 @@
 
 - content_for :javascripts do
     :coffeescript
-        loader = $ '#location_tree_loader'
-        form_target = $ '#accommodation_location_id'
-
-        location_level_f = (event) =>
-            # the clicked element
-            ee = $ event.target
-            # remove any selectors after the clicked one
-            ee.nextAll().remove()
-
-            # if ---- is selected, don't add another level
-            if not not event.target.value
-
-                # show the spinner
-                loader.show()
-
-                # set location_id
-                form_target.val event.target.value
-
-                # load next level
-                url = '/locations/drilldown/' + event.target.value
-                $.getJSON url, (data) =>
-                    if data.children.length > 0
-                        level = $('.location_level_picker').length + 1
-                        new_id = 'location_level_' + level
-                        e = $ '<select></select>'
-                            .addClass 'form-control input-sm'
-                            .attr 'id', new_id
-                            .attr 'name', new_id
-                            .attr 'loc_level', level
-                            .change location_level_f
-
-                        # first add blank version
-                        e.append ($('<option></option>')
-                            .attr 'value', ''
-                            .html '----'
-                        )
-
-                        # then append options to match drilldown
-                        e.append data.children.map (c) ->
-                            $ '<option></option>'
-                                .attr 'value', c.id
-                                .html c.name
-
-                        ediv = $ '<div></div>'
-                            .addClass 'location_level_picker'
-                            .css 'padding', 2
-                            .css 'padding-left', (level*20-20)
-
-                        ediv.append(e)
-
-                        ee.parent().after(ediv)
-
-                # hide the spinner
-                loader.hide()
-
-            else
-                level = Number(ee.attr 'loc_level') - 1
-                if level == 0
-                    form_target.val ''
-                else
-                    form_target.val $('#location_level_' + level).val()
-
-        $('.location_level_picker').change location_level_f
-
+        new LocationPickerTree 'accommodation_location_id'
 

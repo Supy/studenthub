@@ -43,7 +43,7 @@ describe AccommodationsController, type: :controller do
                 post :create, accommodation: bad_attrs
             end.not_to change(Accommodation, :count)
             expect(response).to be_success
-            expect(response).to render_template 'new_for_sharing'
+            expect(response).to render_template 'new'
         end
 
         it 'renders new when bad type' do
@@ -61,7 +61,7 @@ describe AccommodationsController, type: :controller do
         it 'returns http success if type is specified' do
             get :new, type: 'for_sale'
             expect(response).to be_success
-            expect(response).to render_template 'new_for_sale'
+            expect(response).to render_template 'new'
             expect(assigns(:accommodation).id).to be_nil
             expect(assigns(:accommodation).accommodation_type).to eq('for_sale')
         end

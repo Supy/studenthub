@@ -8,7 +8,7 @@ class AccommodationsController < ApplicationController
         @accommodation = Accommodation.new
         if params[:type] and Accommodation.accommodation_types.include? params[:type]
             @accommodation.accommodation_type = params[:type]
-            render action: "new_#{params[:type]}"
+            render action: 'new'
         else
             render action: 'new_without_type'
         end
@@ -21,7 +21,7 @@ class AccommodationsController < ApplicationController
             if @accommodation.save
                 redirect_to @accommodation
             else
-                render action: "new_#{@accommodation.accommodation_type}"
+                render action: 'new'
             end
         else
             redirect_to new_accommodation_path

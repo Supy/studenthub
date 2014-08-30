@@ -43,6 +43,8 @@ class @LocationPickerTree
             if data.children.length > 0
                 level = $('.location_level_picker').length + 1
                 ee.parent().after(@build_selector level, data)
+        # return
+        true
 
     location_level_f: (event) =>
         # the clicked element
@@ -71,3 +73,6 @@ class @LocationPickerTree
                 @form_target.val ''
             else
                 @form_target.val $('#location_level_' + level).val()
+
+        # return
+        true

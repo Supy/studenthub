@@ -39,16 +39,9 @@
                     %span.help-block
                         Advertising the location of the item is critical since people want to buy items in a certain area.
                         Specify the location as accurately as possible.
-
-                    #location_tree_container.form-group
-                        #location_tree
-                            - @location_levels.each_with_index do |level, i|
-                                .location_level_wrapper{style: "padding: 2px; padding-left: #{i*20}px"}
-                                    = select_tag "location_level_#{i+1}", options_from_collection_for_select(level, :id, :name),
-                                        prompt: '----',
-                                        class: 'form-control input-sm location_level_picker', loc_level: i+1
-                        #location_tree_loader.text-center{style: 'display: none'}
-                            %i.fa.fa-spinner.fa-3x.fa-spin
+                    .form-group
+                        = render partial: 'locations/location_picker',
+                            locals: {loc_levels: @location_levels}
 
             .panel.panel-default
                 .panel-heading

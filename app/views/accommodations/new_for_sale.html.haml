@@ -40,8 +40,7 @@
                         Advertising the location of the item is critical since people want to buy items in a certain area.
                         Specify the location as accurately as possible.
                     .form-group
-                        = render partial: 'locations/location_picker',
-                            locals: {loc_levels: @location_levels}
+                        = render partial: 'locations/location_picker', locals: {starting_location: @accommodation.location}
 
             .panel.panel-default
                 .panel-heading
